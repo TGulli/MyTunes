@@ -11,7 +11,8 @@ public class MyTunesApplication {
 //		DatabaseRetreiver.task3(new Customer("ERT", "Pedersen", "Norway", "1337", "12345678", "bjon@ped.no"));
 //		DatabaseRetreiver.task1();
 //		DatabaseRetreiver.task4();
-		DatabaseRetreiver.task5();
+//		DatabaseRetreiver.task5();
+		DatabaseRetreiver.task6();
 
 //		SpringApplication.run(MyTunesApplication.class, args);
 		//Kommer dette??

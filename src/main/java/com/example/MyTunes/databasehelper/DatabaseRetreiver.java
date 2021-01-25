@@ -184,5 +184,44 @@ public class DatabaseRetreiver {
         }
     }
 
+    public static void task6(){
+        try {
+            // Open Connection
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established.");
+
+            // Prepare Statement
+            PreparedStatement preparedStatement =
+                    conn.prepareStatement("SELECT  Customer.FirstName, Genre.Name FROM Customer " +
+                            "INNER JOIN Invoice ON Invoice.CustomerId = Customer.CustomerId " +
+                            "INNER JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId " +
+                            "INNER JOIN Track ON Track.TrackId = InvoiceLine.TrackId " +
+                            "INNER JOIN Genre ON Track.GenreId = Genre.GenreId " +
+                            "WHERE Customer.Firstname = 'Astrid'");
+
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            // Process Results
+            while (resultSet.next()){
+                System.out.print(resultSet.getString(1) + ", ");
+                System.out.println(resultSet.getString(2));
+            }
+        }
+
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            try {
+                conn.close();
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
 
 }
