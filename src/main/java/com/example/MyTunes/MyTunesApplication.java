@@ -12,7 +12,7 @@ public class MyTunesApplication {
 //		DatabaseRetreiver.task1();
 //		DatabaseRetreiver.task4();
 //		DatabaseRetreiver.task5();
-		DatabaseRetreiver.task6();
+		DatabaseRetreiver.task6("Roberto", "Almeida");
 
 //		SpringApplication.run(MyTunesApplication.class, args);
 		//Kommer dette??

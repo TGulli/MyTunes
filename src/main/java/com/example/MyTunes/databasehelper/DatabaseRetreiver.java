@@ -184,20 +184,27 @@ public class DatabaseRetreiver {
         }
     }
 
-    public static void task6(){
+    public static void task6(String firstName, String lastName){
         try {
             // Open Connection
             conn = DriverManager.getConnection(URL);
             System.out.println("Connection to SQLite has been established.");
 
-            // Prepare Statement
             PreparedStatement preparedStatement =
-                    conn.prepareStatement("SELECT  Customer.FirstName, Genre.Name FROM Customer " +
+                    conn.prepareStatement("WITH tableName AS (SELECT Customer.FirstName as fn, Customer.LastName as ln, Genre.Name as gn, COUNT(InvoiceLine.Quantity) as tot FROM Customer " +
                             "INNER JOIN Invoice ON Invoice.CustomerId = Customer.CustomerId " +
                             "INNER JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId " +
                             "INNER JOIN Track ON Track.TrackId = InvoiceLine.TrackId " +
                             "INNER JOIN Genre ON Track.GenreId = Genre.GenreId " +
-                            "WHERE Customer.Firstname = 'Astrid'");
+                            "WHERE Customer.FirstName = ? " +
+                            "AND Customer.LastName = ?" +
+                            "GROUP BY Genre.Name) " +
+                            "SELECT fn, ln, gn, tot FROM tableName " +
+                            "GROUP BY gn " +
+                            "HAVING tot = (SELECT MAX(tot) FROM tableName) ");
+
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
 
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -205,8 +212,10 @@ public class DatabaseRetreiver {
 
             // Process Results
             while (resultSet.next()){
-                System.out.print(resultSet.getString(1) + ", ");
-                System.out.println(resultSet.getString(2));
+                System.out.print("Name: " + resultSet.getString(1));
+                System.out.print(" " + resultSet.getString(2) + " | ");
+                System.out.print("Genre: " + resultSet.getString(3) + " | ");
+                System.out.println("Number of songs in Genre: " + resultSet.getString(4));
             }
         }
 
