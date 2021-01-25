@@ -10,6 +10,7 @@ public class MyTunesApplication {
 	public static void main(String[] args) {
 		DatabaseRetreiver.testConnection();
 		//SpringApplication.run(MyTunesApplication.class, args);
+		//Kommer dette??
 	}
 
 }
