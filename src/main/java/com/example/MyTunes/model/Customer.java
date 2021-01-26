@@ -37,15 +37,6 @@ public class Customer {
         return email;
     }
 
-    //Lage
-    public Customer(String firstName, String lastName, String country, String postalCode, String phoneNumber, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.country = country;
-        this.postalCode = postalCode;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-    }
     //Hente
     public Customer(int id, String firstName, String lastName, String country, String postalCode, String phoneNumber, String email) {
         this.id = id;
@@ -55,5 +46,18 @@ public class Customer {
         this.postalCode = postalCode;
         this.phoneNumber = phoneNumber;
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", country='" + country + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

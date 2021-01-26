@@ -25,15 +25,15 @@ public class CustomerController {
     }
 
     //Task 2
-    @PostMapping
+    @PostMapping()
     public boolean createCustomer(@RequestBody Customer customer){
-        return false;
+        return db.createCustomer(customer);
     }
 
     //Task 3
-    @PatchMapping
-    public boolean updateCustomer(){
-        return false;
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public boolean updateCustomer(@PathVariable String id, @RequestBody Customer customer){
+        return db.updateCustomer(customer, id);
     }
 
     //Task 4

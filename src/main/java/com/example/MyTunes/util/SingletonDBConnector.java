@@ -17,7 +17,7 @@ public class SingletonDBConnector {
         }
     }
 
-    public static SingletonDBConnector getInstance() {
+    public static synchronized SingletonDBConnector getInstance() {
         if (singletonDBConnector == null){
             return new SingletonDBConnector();
         }

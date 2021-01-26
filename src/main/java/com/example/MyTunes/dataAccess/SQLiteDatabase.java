@@ -12,12 +12,13 @@ import java.util.Arrays;
 
 public class SQLiteDatabase implements IRepository{
 
-    private SingletonDBConnector dataBaseConnection = SingletonDBConnector.getInstance();
+    private SingletonDBConnector dataBaseConnection = null;
     private Connection myConnection = null;
 
 
     @Override
     public ArrayList<Customer> getAllCustomers() {
+        dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
         System.out.println("Triggered by postman");
         ArrayList<Customer> recievedCustomers = new ArrayList<>();
@@ -46,12 +47,58 @@ public class SQLiteDatabase implements IRepository{
     }
 
     @Override
-    public boolean createCustomer() {
+    public boolean createCustomer(Customer customer) {
+        dataBaseConnection = SingletonDBConnector.getInstance();
+        myConnection = dataBaseConnection.getConn();
+        System.out.println("createCustomer reached");
+        System.out.println(customer.toString());
+
+
+        try {
+
+            PreparedStatement createCustomerStatement =
+                    myConnection.prepareStatement("INSERT INTO Customer (FirstName,LastName,Country,PostalCode,Phone,Email)  VALUES  (?,?,?,?,?,?)");
+            createCustomerStatement.setString(1, customer.getFirstName());
+            createCustomerStatement.setString(2, customer.getLastName());
+            createCustomerStatement.setString(3, customer.getCountry());
+            createCustomerStatement.setString(4, customer.getPostalCode());
+            createCustomerStatement.setString(5, customer.getPhoneNumber());
+            createCustomerStatement.setString(6, customer.getEmail());
+
+
+            return createCustomerStatement.executeUpdate() != 0;
+
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
         return false;
     }
 
     @Override
-    public boolean updateCustomer() {
+    public boolean updateCustomer(Customer customer, String id) {
+        dataBaseConnection = SingletonDBConnector.getInstance();
+        myConnection = dataBaseConnection.getConn();
+        System.out.println("updateCustomer reached");
+
+        try {
+            PreparedStatement createCustomerStatement =
+                    myConnection.prepareStatement("UPDATE Customer SET FirstName=?,LastName=?,Country=?,PostalCode=?,Phone=?,Email=? WHERE Customer.CustomerID = ?");
+            createCustomerStatement.setString(1, customer.getFirstName());
+            createCustomerStatement.setString(2, customer.getLastName());
+            createCustomerStatement.setString(3, customer.getCountry());
+            createCustomerStatement.setString(4, customer.getPostalCode());
+            createCustomerStatement.setString(5, customer.getPhoneNumber());
+            createCustomerStatement.setString(6, customer.getEmail());
+            createCustomerStatement.setString(7, id);
+
+
+            return createCustomerStatement.executeUpdate() != 0;
+
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
         return false;
     }
 
