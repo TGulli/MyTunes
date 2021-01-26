@@ -37,7 +37,18 @@ public class Customer {
         return email;
     }
 
+    //Lage
     public Customer(String firstName, String lastName, String country, String postalCode, String phoneNumber, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.postalCode = postalCode;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+    //Hente
+    public Customer(int id, String firstName, String lastName, String country, String postalCode, String phoneNumber, String email) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;

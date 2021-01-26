@@ -1,11 +1,12 @@
 package com.example.MyTunes.controller;
 
 
+import com.example.MyTunes.dataAccess.IRepository;
+import com.example.MyTunes.dataAccess.SQLiteDatabase;
 import com.example.MyTunes.model.Customer;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @RestController
 @RequestMapping("api/customers")
@@ -15,11 +16,12 @@ public class CustomerController {
      * Create, Read, Update, Delete
      */
 
+    IRepository db = new SQLiteDatabase();
+
     //task 1
     @GetMapping
     public ArrayList<Customer> getAllCustomers(){
-        //all customers from database
-        return null;
+        return db.getAllCustomers();
     }
 
     //Task 2

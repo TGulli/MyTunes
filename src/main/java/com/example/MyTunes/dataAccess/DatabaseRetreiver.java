@@ -1,4 +1,4 @@
-package com.example.MyTunes.databasehelper;
+package com.example.MyTunes.dataAccess;
 
 import com.example.MyTunes.model.Customer;
 

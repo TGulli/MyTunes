@@ -1,6 +1,5 @@
 package com.example.MyTunes;
 
-import com.example.MyTunes.databasehelper.DatabaseRetreiver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
