@@ -1,4 +1,4 @@
-package com.example.MyTunes.databasehelper;
+package com.example.MyTunes.model;
 
 public class Customer {
     private int id;

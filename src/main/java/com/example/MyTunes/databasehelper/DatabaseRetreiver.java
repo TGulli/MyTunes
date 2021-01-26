@@ -1,5 +1,7 @@
 package com.example.MyTunes.databasehelper;
 
+import com.example.MyTunes.model.Customer;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
