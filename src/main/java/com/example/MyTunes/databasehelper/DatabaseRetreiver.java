@@ -25,7 +25,7 @@ public class DatabaseRetreiver {
 
             // Process Results
             while (resultSet.next()){
-                System.out.println(resultSet.getString(1));
+                System.out.print(resultSet.getString(1) + ", ");
                 System.out.println(resultSet.getString(2));
             }
         }
@@ -34,12 +34,7 @@ public class DatabaseRetreiver {
                 System.out.println(e.getMessage());
         }
         finally {
-            try {
-                conn.close();
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-            }
+            closeConnection();
         }
     }
 
@@ -70,12 +65,7 @@ public class DatabaseRetreiver {
             System.out.println(e.getMessage());
         }
         finally {
-            try {
-                conn.close();
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-            }
+            closeConnection();
         }
     }
 
@@ -107,12 +97,7 @@ public class DatabaseRetreiver {
             System.out.println(e.getMessage());
         }
         finally {
-            try {
-                conn.close();
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-            }
+            closeConnection();
         }
     }
 
@@ -132,7 +117,7 @@ public class DatabaseRetreiver {
 
             // Process Results
             while (resultSet.next()){
-                System.out.println(resultSet.getString(1));
+                System.out.print(resultSet.getString(1) + ", ");
                 System.out.println(resultSet.getString(2));
             }
         }
@@ -141,12 +126,7 @@ public class DatabaseRetreiver {
             System.out.println(e.getMessage());
         }
         finally {
-            try {
-                conn.close();
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-            }
+            closeConnection();
         }
     }
 
@@ -158,7 +138,8 @@ public class DatabaseRetreiver {
 
             // Prepare Statement
             PreparedStatement preparedStatement =
-                    conn.prepareStatement("SELECT Customer.Firstname, Invoice.Total FROM Customer, Invoice WHERE Customer.CustomerID = Invoice.CustomerID ORDER BY Invoice.Total DESC");
+                    conn.prepareStatement("SELECT Customer.Firstname, Invoice.Total FROM Customer, Invoice" +
+                            " WHERE Customer.CustomerID = Invoice.CustomerID ORDER BY Invoice.Total DESC");
 
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -175,12 +156,7 @@ public class DatabaseRetreiver {
             System.out.println(e.getMessage());
         }
         finally {
-            try {
-                conn.close();
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-            }
+            closeConnection();
         }
     }
 
@@ -218,19 +194,21 @@ public class DatabaseRetreiver {
                 System.out.println("Number of songs in Genre: " + resultSet.getString(4));
             }
         }
-
         catch (Exception e){
             System.out.println(e.getMessage());
         }
         finally {
-            try {
-                conn.close();
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-            }
+            closeConnection();
         }
     }
 
+    private static void closeConnection(){
+        try {
+            conn.close();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 
 }
