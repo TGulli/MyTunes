@@ -211,7 +211,6 @@ public class DatabaseRetreiver {
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
-
             // Process Results
             while (resultSet.next()){
                 System.out.print("Name: " + resultSet.getString(1));
