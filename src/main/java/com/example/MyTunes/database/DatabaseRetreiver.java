@@ -1,4 +1,6 @@
-package com.example.MyTunes.databasehelper;
+package com.example.MyTunes.database;
+
+import com.example.MyTunes.model.Customer;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
