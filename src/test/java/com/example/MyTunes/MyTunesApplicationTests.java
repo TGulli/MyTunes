@@ -25,4 +25,9 @@ class MyTunesApplicationTests {
 		db.createCustomer(new Customer(999999, "hei", "nei", "tjohei", "bay", "buja", "somethign"));
 	}
 
+	@Test
+	public void checkEntriesInDatabase(){
+		System.out.println(db.getAllCustomers());
+	}
+
 }

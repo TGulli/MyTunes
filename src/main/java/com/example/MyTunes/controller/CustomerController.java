@@ -27,22 +27,23 @@ public class CustomerController {
         return db.getAllCustomers();
     }
 
-    //Task 2
-    @RequestMapping(value = "/addCustomer", method = RequestMethod.GET)
-    public String createCustomer(Model model){
-        Customer customer = new Customer();
-        model.addAttribute("customer", customer);
-        System.out.println("SSRKGsræø=??");
-        return "addCustomer";
-    }
-
-    @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
-    public String createCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
-        Boolean success = db.createCustomer(customer);
-        model.addAttribute("success", success);
-        System.out.println("Ser her=??");
-        return "addCustomer";
-    }
+//    //Task 2
+//    @RequestMapping(value = "/addCustomer", method = RequestMethod.GET)
+//    public String createCustomer(Model model){
+//        Customer customer = new Customer();
+//        model.addAttribute("customer", customer);
+//        System.out.println("SSRKGsræø=??");
+//        return "addCustomer";
+//    }
+//
+//    @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
+//    public String createCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
+//        Boolean success = db.createCustomer(customer);
+//        System.out.println("Status: " + success);
+//        model.addAttribute("success", success);
+//        System.out.println("Ser her=??");
+//        return "addCustomer";
+//    }
 
     //Task 3
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
