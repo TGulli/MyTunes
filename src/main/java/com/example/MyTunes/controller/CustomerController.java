@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-@RestController
+//@RestController
+@Controller
 @RequestMapping("api/customers")
 public class CustomerController {
     /**
@@ -23,33 +24,51 @@ public class CustomerController {
 
     //task 1
     @GetMapping
-    public ArrayList<Customer> getAllCustomers(){
-        return db.getAllCustomers();
+    public String getAllCustomers(Model model){
+        model.addAttribute("customers", db.getAllCustomers());
+        return "view-all-customers";
     }
 
-//    //Task 2
-//    @RequestMapping(value = "/addCustomer", method = RequestMethod.GET)
-//    public String createCustomer(Model model){
-//        Customer customer = new Customer();
-//        model.addAttribute("customer", customer);
-//        System.out.println("SSRKGsræø=??");
-//        return "addCustomer";
-//    }
-//
-//    @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
-//    public String createCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
-//        Boolean success = db.createCustomer(customer);
-//        System.out.println("Status: " + success);
-//        model.addAttribute("success", success);
-//        System.out.println("Ser her=??");
-//        return "addCustomer";
-//    }
+    /**
+     * Adding works fine, but @Controller won't work in POstman
+     * @RestController will work, but screw up the thymeleaf html pointer
+     */
+
+    //Task 2
+    @GetMapping("/addCustomer")
+    public String createCustomer(Model model){
+        model.addAttribute("customer", new Customer(0, "test", "teas", "", "", "", ""));
+        return "addCustomer";
+    }
+
+    @PostMapping("/addCustomer")
+    public String createCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
+        Boolean success = db.createCustomer(customer);
+        System.out.println("Status: " + success);
+        model.addAttribute("success", success);
+        System.out.println("Ser her=??");
+        return "addCustomer";
+    }
+
 
     //Task 3
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public boolean updateCustomer(@PathVariable String id, @RequestBody Customer customer){
-        return db.updateCustomer(customer, id);
+    @GetMapping(value = "/edit-customer/{id}")
+    public String updateCustomer(@PathVariable String id, Model model) {
+        model.addAttribute("editCustomer", new Customer(Integer.parseInt(id), "","","","","",""));
+        return "edit-customer";
     }
+
+    @PutMapping("/update-customer/{id}")
+    public String updateCustomer(@PathVariable("id") @ModelAttribute Customer customer, BindingResult error, Model model){
+        System.out.println((String)model.getAttribute("customerId"));
+        System.out.println(customer.toString());
+        boolean updatedSuccessfully = db.updateCustomer(customer, (String)model.getAttribute("customerId"));
+        System.out.println(updatedSuccessfully);
+
+        return "edit-customer";
+    }
+
+
 
     //Task 4
     @GetMapping("/customer-each-country")
