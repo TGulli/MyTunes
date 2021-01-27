@@ -53,14 +53,19 @@ public class CustomerController {
 
     //Task 3
     @GetMapping(value = "/edit-customer/{id}")
-    public String updateCustomer(@PathVariable String id, Model model) {
+    public String updateCustomer(@PathVariable() String id, Model model) {
+        System.out.println("ID1: " + id);
+        Customer customer = db.getCustomer(id);
+        System.out.println("ID2: " + customer.getId());
         model.addAttribute("editCustomer", new Customer(Integer.parseInt(id), "","","","","",""));
         return "edit-customer";
     }
 
-    @PutMapping("/update-customer/{id}")
-    public String updateCustomer(@PathVariable("id") @ModelAttribute Customer customer, BindingResult error, Model model){
+    @PostMapping("update-customer/{id}")
+    public String updateCustomer(@PathVariable("id") String id, Customer customer, BindingResult error, Model model){
+        System.out.println("sgsrg");
         System.out.println((String)model.getAttribute("customerId"));
+        System.out.println((String)model.getAttribute("id"));
         System.out.println(customer.toString());
         boolean updatedSuccessfully = db.updateCustomer(customer, (String)model.getAttribute("customerId"));
         System.out.println(updatedSuccessfully);

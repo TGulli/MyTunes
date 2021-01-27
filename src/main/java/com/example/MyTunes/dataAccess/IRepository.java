@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public interface IRepository {
     ArrayList<Customer> getAllCustomers();
+    Customer getCustomer(String id);
     boolean createCustomer(Customer customer);
     boolean updateCustomer(Customer customer, String id);
     String getCustomersFromEachCountry();

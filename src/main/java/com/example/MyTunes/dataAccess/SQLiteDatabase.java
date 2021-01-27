@@ -3,10 +3,7 @@ package com.example.MyTunes.dataAccess;
 import com.example.MyTunes.model.Customer;
 import com.example.MyTunes.util.SingletonDBConnector;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -37,6 +34,38 @@ public class SQLiteDatabase implements IRepository{
                         resultSet.getString(4), resultSet.getString(5),resultSet.getString(6), resultSet.getString(7)));
             }
             return recievedCustomers;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public Customer getCustomer(String id) {
+        dataBaseConnection = SingletonDBConnector.getInstance();
+        myConnection = dataBaseConnection.getConn();
+        System.out.println("Triggered by postman");
+        Customer customer = null;
+
+        try {
+            PreparedStatement preparedStatement =
+                    myConnection.prepareStatement("SELECT Customer.FirstName, Customer.LastName, Customer.Country, " +
+                            "Customer.PostalCode, Customer.Phone, Customer.Email  " +
+                            "FROM Customer WHERE Customer.CustomerId = ?");
+
+            preparedStatement.setString(1, id);
+
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process Results
+            System.out.println("Hit da??");
+            // TODO remove the old customer
+            return new Customer(Integer.parseInt(id), resultSet.getString(1), resultSet.getString(2),
+                    resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6));
         }
         catch (SQLException e){
             System.out.println(e.getMessage());

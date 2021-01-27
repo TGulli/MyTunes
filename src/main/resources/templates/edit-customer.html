@@ -25,7 +25,7 @@
         <div class="col-sm-6 offset-3">
             <div class="card shadow-lg p-3 mb-5 bg-white rounded">
                 <div class="card-body">
-                    <form action="#" th:action="@{/update-customer/{id}(id=${editCustomer.getId()})}" th:object="${editCustomer}" method="put">
+                    <form action="#" th:action="@{/update-customer/{id}(id=${editCustomer.getId()})}" th:object="${editCustomer}" method="post">
                         <div class="form-group">
                             <label for="firstName">first name</label>
                             <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required />
