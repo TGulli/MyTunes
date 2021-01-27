@@ -4,6 +4,7 @@ package com.example.MyTunes.controller;
 import com.example.MyTunes.dataAccess.IRepository;
 import com.example.MyTunes.dataAccess.SQLiteDatabase;
 import com.example.MyTunes.model.Customer;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
