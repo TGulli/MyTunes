@@ -1,5 +1,6 @@
 package com.example.MyTunes.dataAccess;
 
+import com.example.MyTunes.model.Artist;
 import com.example.MyTunes.model.Country;
 import com.example.MyTunes.model.Customer;
 
@@ -10,6 +11,6 @@ public interface IRepository {
     boolean createCustomer(Customer customer);
     boolean updateCustomer(Customer customer, String id);
     ArrayList<Country> getCustomersFromEachCountry();
-    String getHighestEarningCustomers();
-    String getMostPopularGenreFromSpecificCustomer(String id);
+    ArrayList<String> getHighestEarningCustomers();
+    Artist getMostPopularGenreFromSpecificCustomer(String id);
 }

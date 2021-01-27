@@ -87,14 +87,16 @@ public class CustomerController {
 
     //Task 5
     @GetMapping("/getHighestEarningCustomers")
-    public String getHighestEarningCustomers(){
-        return db.getHighestEarningCustomers();
+    public String getHighestEarningCustomers(Model model){
+        model.addAttribute("customers", db.getHighestEarningCustomers());
+        return "highestEarning";
     }
 
     //Task 6
     @GetMapping(value = "/getMostPopularGenreFromSpecificCustomer/{id}")
-    public String getMostPopularGenreFromSpecificCustomer(@PathVariable(name = "id") String id){
-        System.out.println("ID: " + id);
-        return db.getMostPopularGenreFromSpecificCustomer(id);
+    public String getMostPopularGenreFromSpecificCustomer(@PathVariable(name = "id") String id, Model model){
+        ArrayList<String> alltheStrings = db.getMostPopularGenreFromSpecificCustomer(id).getPopularGenres();
+        model.addAttribute("artist", alltheStrings);
+        return "customerGenre";
     }
 }

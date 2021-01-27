@@ -1,5 +1,6 @@
 package com.example.MyTunes.dataAccess;
 
+import com.example.MyTunes.model.Artist;
 import com.example.MyTunes.model.Country;
 import com.example.MyTunes.model.Customer;
 import com.example.MyTunes.util.SingletonDBConnector;
@@ -135,7 +136,7 @@ public class SQLiteDatabase implements IRepository{
     }
 
     @Override
-    public String getHighestEarningCustomers() {
+    public ArrayList<String> getHighestEarningCustomers() {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
         System.out.println("getCustomersFromEachCountry reached");
@@ -151,22 +152,21 @@ public class SQLiteDatabase implements IRepository{
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
-
+            ArrayList<String> arrayList = new ArrayList<>();
             // Process Results
             while (resultSet.next()){
-                returnString.append(resultSet.getString(1) + " ");
-                returnString.append(resultSet.getString(2) + ", ");
-                returnString.append(resultSet.getString(3) + "\n");
+                arrayList.add(resultSet.getString(1) +resultSet.getString(2) + resultSet.getString(3));
             }
+            return arrayList;
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        return returnString.toString();
+        return null;
     }
 
     @Override
-    public String getMostPopularGenreFromSpecificCustomer(String id) {
+    public Artist getMostPopularGenreFromSpecificCustomer(String id) {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
         System.out.println("getCustomersFromEachCountry reached");
@@ -190,17 +190,24 @@ public class SQLiteDatabase implements IRepository{
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            ArrayList<String> genreAndSongs = new ArrayList<>();
             // Process Results
+            String firstName = "";
+            String lastName = "";
             while (resultSet.next()){
-                returnString.append("Name: " + resultSet.getString(1));
-                returnString.append(" " + resultSet.getString(2) + " | ");
-                returnString.append("Genre: " + resultSet.getString(3) + " | ");
-                returnString.append("Number of songs in Genre: " + resultSet.getString(4) + "\n");
+                firstName = resultSet.getString(1);
+                lastName = resultSet.getString(2);
+                genreAndSongs.add(resultSet.getString(3) + " number " + resultSet.getString(4));
             }
+            System.out.println(genreAndSongs);
+            Artist myArtist = new Artist(firstName,lastName, genreAndSongs);
+
+            return myArtist;
+
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        return returnString.toString();
+        return null;
     }
 }
