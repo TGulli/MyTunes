@@ -51,7 +51,7 @@ public class CustomerController {
     }
 
 
-    //Task 3
+    //Task 3 FINITO
     @GetMapping(value = "/editCustomer/{id}")
     public String updateCustomer(@PathVariable("id") int id, Model model) {
         ArrayList<Customer> allCustomers = db.getAllCustomers();
@@ -78,12 +78,11 @@ public class CustomerController {
         return "editCustomer";
     }
 
-
-
     //Task 4
     @GetMapping("/customer-each-country")
-    public String getCustomersFromEachCountry(){
-        return db.getCustomersFromEachCountry();
+    public String getCustomersFromEachCountry(Model model){
+        model.addAttribute("countries", db.getCustomersFromEachCountry());
+        return "countryCustomers";
     }
 
     //Task 5

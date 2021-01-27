@@ -1,5 +1,6 @@
 package com.example.MyTunes.dataAccess;
 
+import com.example.MyTunes.model.Country;
 import com.example.MyTunes.model.Customer;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ public interface IRepository {
     ArrayList<Customer> getAllCustomers();
     boolean createCustomer(Customer customer);
     boolean updateCustomer(Customer customer, String id);
-    String getCustomersFromEachCountry();
+    ArrayList<Country> getCustomersFromEachCountry();
     String getHighestEarningCustomers();
     String getMostPopularGenreFromSpecificCustomer(String id);
 }

@@ -1,5 +1,6 @@
 package com.example.MyTunes.dataAccess;
 
+import com.example.MyTunes.model.Country;
 import com.example.MyTunes.model.Customer;
 import com.example.MyTunes.util.SingletonDBConnector;
 
@@ -103,7 +104,7 @@ public class SQLiteDatabase implements IRepository{
     }
 
     @Override
-    public String getCustomersFromEachCountry() {
+    public ArrayList<Country> getCustomersFromEachCountry() {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
         System.out.println("getCustomersFromEachCountry reached");
@@ -118,18 +119,19 @@ public class SQLiteDatabase implements IRepository{
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            ArrayList<Country> foundCustomers = new ArrayList<>();
 
             // Process Results
             while (resultSet.next()){
-                returnString.append(resultSet.getString(1) + ", ");
-                returnString.append(resultSet.getString(2) + "\n");
+                foundCustomers.add(new Country(resultSet.getString(1), resultSet.getInt(2)));
             }
+            return foundCustomers;
 
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        return returnString.toString();
+        return null;
     }
 
     @Override
