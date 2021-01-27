@@ -52,20 +52,27 @@ public class CustomerController {
 
 
     //Task 3
-    @GetMapping(value = "/edit-customer/{id}")
-    public String updateCustomer(@PathVariable String id, Model model) {
-        model.addAttribute("editCustomer", new Customer(Integer.parseInt(id), "","","","","",""));
-        return "edit-customer";
+    @GetMapping(value = "/editCustomer/{id}")
+    public String updateCustomer(@PathVariable("id") int id, Model model) {
+        ArrayList<Customer> allCustomers = db.getAllCustomers();
+        Customer myCustomer = null;
+        for (Customer c : allCustomers){
+            if (id == c.getId()){
+                myCustomer = c;
+            }
+        }
+        model.addAttribute("editCustomer", myCustomer);
+        return "editCustomer";
     }
 
-    @PutMapping("/update-customer/{id}")
-    public String updateCustomer(@PathVariable("id") @ModelAttribute Customer customer, BindingResult error, Model model){
-        System.out.println((String)model.getAttribute("customerId"));
-        System.out.println(customer.toString());
-        boolean updatedSuccessfully = db.updateCustomer(customer, (String)model.getAttribute("customerId"));
-        System.out.println(updatedSuccessfully);
+    @PostMapping("/updateCustomer/{id}")
+    public String updateCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
+        System.out.println("REACHED");
+        System.out.println(customer);
+        //boolean updatedSuccessfully = db.updateCustomer((Customer)model.addAttribute("editCustomer"), (String)model.getAttribute("customerId"));
+        //System.out.println(updatedSuccessfully);
 
-        return "edit-customer";
+        return "editCustomer";
     }
 
 
