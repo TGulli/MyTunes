@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang = "en" xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/main.css}">
+<script th:src="@{/js/bootstrap.min.js}" ></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Add Customer</title>
+</head>
+<body>
+
+<div class="container inner-padded">
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${success}">
+        <strong>Success!</strong> The new customer was added.
+    </div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${success} == false">
+        <strong>Oops!</strong> Something has gone wrong :(
+    </div>
+
+    <div class="row justify-content-center align-items-center">
+        <h1 class="display-3">New customer</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 offset-3">
+            <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+                <div class="card-body">
+                    <form action="#" th:action="@{/addCustomer}" th:object="${customer}" method="post">
+                        <div class="form-group">
+                            <label for="firstName">Company name</label>
+                            <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required />
+                            <small id="firstNameHint" class="form-text text-muted">Enter first name</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Company name</label>
+                            <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required />
+                            <small id="lastNameHint" class="form-text text-muted">Enter last name</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Company name</label>
+                            <input type="text" class="form-control" id="country" th:field="*{country}" required />
+                            <small id="countryHint" class="form-text text-muted">Enter country</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="postalCode">Company name</label>
+                            <input type="number" class="form-control" id="postalCode" th:field="*{postalCode}" required />
+                            <small id="postalCodeHint" class="form-text text-muted">Enter postal code</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPhone">Phone</label>
+                            <input type="text" class="form-control" id="inputPhone" th:field="*{phone}" required />
+                            <small id="phoneHelp" class="form-text text-muted">Enter phone number</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="ePost">Company name</label>
+                            <input type="email" class="form-control" id="ePost" th:field="*{ePost}" required />
+                            <small id="ePostHint" class="form-text text-muted">Enter email</small>
+                        </div>
+                        <button type="submit" class="btn btn-success">Add</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+</body>
+</html>

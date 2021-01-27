@@ -9,6 +9,10 @@ public class Customer {
     private String phoneNumber;
     private String email;
 
+    public Customer() {
+
+    }
+
     public int getId() {
         return id;
     }
