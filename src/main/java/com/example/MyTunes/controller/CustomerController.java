@@ -69,9 +69,12 @@ public class CustomerController {
     public String updateCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
         System.out.println("REACHED");
         System.out.println(customer);
-        //boolean updatedSuccessfully = db.updateCustomer((Customer)model.addAttribute("editCustomer"), (String)model.getAttribute("customerId"));
-        //System.out.println(updatedSuccessfully);
+        boolean updatedSuccessfully = db.updateCustomer(customer, String.valueOf(customer.getId()));
+        System.out.println(updatedSuccessfully);
+        model.addAttribute("success", updatedSuccessfully);
+        model.addAttribute("editCustomer", customer);
 
+        //set to main after a spell
         return "editCustomer";
     }
 
