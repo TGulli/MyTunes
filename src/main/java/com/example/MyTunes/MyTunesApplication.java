@@ -1,5 +1,6 @@
 package com.example.MyTunes;
 
+import com.example.MyTunes.dataAccess.DatabaseRetreiver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,7 +12,7 @@ public class MyTunesApplication {
 //		DatabaseRetreiver.task1();
 //		DatabaseRetreiver.task4();
 //		DatabaseRetreiver.task5();
-//		DatabaseRetreiver.task6("Roberto", "Almeida");
+//		DatabaseRetreiver.task6("12");
 
 		SpringApplication.run(MyTunesApplication.class, args);
 		//Kommer dette??

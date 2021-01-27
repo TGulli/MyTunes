@@ -10,5 +10,5 @@ public interface IRepository {
     boolean updateCustomer(Customer customer, String id);
     String getCustomersFromEachCountry();
     String getHighestEarningCustomers();
-    String getMostPopularGenreFromSpecificCustomer();
+    String getMostPopularGenreFromSpecificCustomer(String id);
 }

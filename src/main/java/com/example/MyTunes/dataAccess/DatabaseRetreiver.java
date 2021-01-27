@@ -162,7 +162,7 @@ public class DatabaseRetreiver {
         }
     }
 
-    public static void task6(String firstName, String lastName){
+    public static void task6(String id){
         try {
             // Open Connection
             conn = DriverManager.getConnection(URL);
@@ -174,15 +174,13 @@ public class DatabaseRetreiver {
                             "INNER JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId " +
                             "INNER JOIN Track ON Track.TrackId = InvoiceLine.TrackId " +
                             "INNER JOIN Genre ON Track.GenreId = Genre.GenreId " +
-                            "WHERE Customer.FirstName = ? " +
-                            "AND Customer.LastName = ?" +
+                            "WHERE Customer.CustomerId = ? " +
                             "GROUP BY Genre.Name) " +
                             "SELECT fn, ln, gn, tot FROM tableName " +
                             "GROUP BY gn " +
                             "HAVING tot = (SELECT MAX(tot) FROM tableName) ");
 
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
+            preparedStatement.setString(1, id);
 
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();

@@ -104,16 +104,101 @@ public class SQLiteDatabase implements IRepository{
 
     @Override
     public String getCustomersFromEachCountry() {
-        return null;
+        dataBaseConnection = SingletonDBConnector.getInstance();
+        myConnection = dataBaseConnection.getConn();
+        System.out.println("getCustomersFromEachCountry reached");
+        StringBuilder returnString = new StringBuilder();
+
+
+        try {
+            // Prepare Statement
+            PreparedStatement preparedStatement =
+                    myConnection.prepareStatement("SELECT Country, COUNT(Country) as num FROM Customer GROUP BY Country ORDER BY num DESC");
+
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            // Process Results
+            while (resultSet.next()){
+                returnString.append(resultSet.getString(1) + ", ");
+                returnString.append(resultSet.getString(2) + "\n");
+            }
+
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return returnString.toString();
     }
 
     @Override
     public String getHighestEarningCustomers() {
-        return null;
+        dataBaseConnection = SingletonDBConnector.getInstance();
+        myConnection = dataBaseConnection.getConn();
+        System.out.println("getCustomersFromEachCountry reached");
+        StringBuilder returnString = new StringBuilder();
+
+
+        try {
+            // Prepare Statement
+            PreparedStatement preparedStatement =
+                    myConnection.prepareStatement("SELECT Customer.Firstname, Customer.Lastname, Invoice.Total FROM Customer, Invoice" +
+                            " WHERE Customer.CustomerID = Invoice.CustomerID ORDER BY Invoice.Total DESC");
+
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            // Process Results
+            while (resultSet.next()){
+                returnString.append(resultSet.getString(1) + " ");
+                returnString.append(resultSet.getString(2) + ", ");
+                returnString.append(resultSet.getString(3) + "\n");
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return returnString.toString();
     }
 
     @Override
-    public String getMostPopularGenreFromSpecificCustomer() {
-        return null;
+    public String getMostPopularGenreFromSpecificCustomer(String id) {
+        dataBaseConnection = SingletonDBConnector.getInstance();
+        myConnection = dataBaseConnection.getConn();
+        System.out.println("getCustomersFromEachCountry reached");
+        StringBuilder returnString = new StringBuilder();
+
+        try {
+            PreparedStatement preparedStatement =
+                    myConnection.prepareStatement("WITH tableName AS (SELECT Customer.FirstName as fn, Customer.LastName as ln, Genre.Name as gn, COUNT(InvoiceLine.Quantity) as tot FROM Customer " +
+                            "INNER JOIN Invoice ON Invoice.CustomerId = Customer.CustomerId " +
+                            "INNER JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId " +
+                            "INNER JOIN Track ON Track.TrackId = InvoiceLine.TrackId " +
+                            "INNER JOIN Genre ON Track.GenreId = Genre.GenreId " +
+                            "WHERE Customer.CustomerId = ? " +
+                            "GROUP BY Genre.Name) " +
+                            "SELECT fn, ln, gn, tot FROM tableName " +
+                            "GROUP BY gn " +
+                            "HAVING tot = (SELECT MAX(tot) FROM tableName) ");
+
+            preparedStatement.setString(1, id);
+
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process Results
+            while (resultSet.next()){
+                returnString.append("Name: " + resultSet.getString(1));
+                returnString.append(" " + resultSet.getString(2) + " | ");
+                returnString.append("Genre: " + resultSet.getString(3) + " | ");
+                returnString.append("Number of songs in Genre: " + resultSet.getString(4) + "\n");
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return returnString.toString();
     }
 }

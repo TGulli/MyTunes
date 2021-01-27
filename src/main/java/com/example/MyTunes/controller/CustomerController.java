@@ -39,20 +39,19 @@ public class CustomerController {
     //Task 4
     @GetMapping("/customer-each-country")
     public String getCustomersFromEachCountry(){
-        return "halloFRARA";
+        return db.getCustomersFromEachCountry();
     }
 
     //Task 5
     @GetMapping("/getHighestEarningCustomers")
     public String getHighestEarningCustomers(){
-        return "hallo";
+        return db.getHighestEarningCustomers();
     }
 
     //Task 6
     @GetMapping(value = "/getMostPopularGenreFromSpecificCustomer/{id}")
-    public String getMostPopularGenreFromSpecificCustomer(@RequestParam(value = "id", defaultValue = "1") String id){
-        return "hallo fra task 6";
+    public String getMostPopularGenreFromSpecificCustomer(@PathVariable(name = "id") String id){
+        System.out.println("ID: " + id);
+        return db.getMostPopularGenreFromSpecificCustomer(id);
     }
-
-
 }
