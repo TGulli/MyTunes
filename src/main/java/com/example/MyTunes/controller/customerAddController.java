@@ -15,7 +15,7 @@ public class customerAddController {
     //Task 2
     @GetMapping("/addCustomer")
     public String createCustomer(Model model){
-        model.addAttribute("customer", new Customer(0, "r", "r", "r", "r", "a", "a"));
+        model.addAttribute("customer", new Customer(0, "test", "teas", "", "", "", ""));
         return "addCustomer";
     }
 
