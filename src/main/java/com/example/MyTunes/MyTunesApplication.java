@@ -22,6 +22,7 @@ public class MyTunesApplication {
 //		DatabaseRetreiver.task4();
 //		DatabaseRetreiver.task5();
 //		DatabaseRetreiver.task6("12");
+		//minipush
 
 		SpringApplication.run(MyTunesApplication.class, args);
 		//Kommer dette??
