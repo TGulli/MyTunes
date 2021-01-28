@@ -257,7 +257,7 @@ public class SQLiteDatabase implements IRepository{
             while (resultSet.next()){
                 firstName = resultSet.getString(1);
                 lastName = resultSet.getString(2);
-                genreAndSongs.add(resultSet.getString(3) + " number " + resultSet.getString(4));
+                genreAndSongs.add("Genre: " + resultSet.getString(3) + " | Number of songs: " + resultSet.getString(4));
             }
             System.out.println(genreAndSongs);
             Artist myArtist = new Artist(firstName,lastName, genreAndSongs);

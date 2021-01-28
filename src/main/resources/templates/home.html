@@ -35,51 +35,45 @@
                 </li>
             </ul>
         </div>
+        <form class="d-flex" method="post">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
     </div>
 </nav>
 
-<div class="position-absolute bottom-50 end-50">
-    <form>
-        <div class="mb-3">
-            <label for="searchForm" class="form-label">Search</label>
-            <input type="text" class="form-control" id="searchForm" aria-describedby="searchHelp">
-            <div id="searchHint" class="form-text">Search for anyhting you like!</div>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
 
-<div class="container">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
-        <div class="col">
-            <b>5 Random artists:</b>
-            <table style="width:100%">
-                <tr th:each="cust : ${customers}">
-                    <td th:text="${cust.getFirstName()} + ' ' + ${cust.getLastName()}"></td>
-                </tr>
-            </table>
-        </div>
-        <div class="col">
-            <b>5 Random tracks:</b>
-            <table style="width:100%">
-                <tr  th:each="track : ${tracks}">
-                    <td th:text="${track}"></td>
-                </tr>
-            </table>
-        </div>
-        <div class="col">
-            <b>5 Random genres:</b>
-            <table style="width:100%">
-                <tr th:each="genre : ${genres}">
-                    <td th:text="${genre}"></td>
-                </tr>
-            </table>
+<div class="container inner-padded">
+    <div class="row align-items-center justify-content-center" style="padding-bottom: 2em;">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+            <div class="col">
+                <b>5 Random artists:</b>
+                <table style="width:100%">
+                    <tr th:each="cust : ${customers}">
+                        <td th:text="${cust.getFirstName()} + ' ' + ${cust.getLastName()}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col">
+                <b>5 Random tracks:</b>
+                <table style="width:100%">
+                    <tr  th:each="track : ${tracks}">
+                        <td th:text="${track}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col">
+                <b>5 Random genres:</b>
+                <table style="width:100%">
+                    <tr th:each="genre : ${genres}">
+                        <td th:text="${genre}"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 
-<h1 th:text="${greeting}"></h1>
-<button type="button" class="btn btn-secondary">Secondary</button>
 </body>
 
 </html>
