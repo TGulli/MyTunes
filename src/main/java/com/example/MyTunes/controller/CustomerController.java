@@ -4,12 +4,15 @@ package com.example.MyTunes.controller;
 import com.example.MyTunes.dataAccess.IRepository;
 import com.example.MyTunes.dataAccess.SQLiteDatabase;
 import com.example.MyTunes.model.Customer;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-@RestController
+//@RestController
+@Controller
 @RequestMapping("api/customers")
 public class CustomerController {
     /**
@@ -21,38 +24,79 @@ public class CustomerController {
 
     //task 1
     @GetMapping
-    public ArrayList<Customer> getAllCustomers(){
-        return db.getAllCustomers();
+    public String getAllCustomers(Model model){
+        model.addAttribute("customers", db.getAllCustomers());
+        return "view-all-customers";
     }
+
+    /**
+     * Adding works fine, but @Controller won't work in POstman
+     * @RestController will work, but screw up the thymeleaf html pointer
+     */
 
     //Task 2
-    @PostMapping()
-    public boolean createCustomer(@RequestBody Customer customer){
-        return db.createCustomer(customer);
+    @GetMapping("/addCustomer")
+    public String createCustomer(Model model){
+        model.addAttribute("customer", new Customer(0, "test", "teas", "", "", "", ""));
+        return "addCustomer";
     }
 
-    //Task 3
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public boolean updateCustomer(@PathVariable String id, @RequestBody Customer customer){
-        return db.updateCustomer(customer, id);
+    @PostMapping("/addCustomer")
+    public String createCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
+        Boolean success = db.createCustomer(customer);
+        System.out.println("Status: " + success);
+        model.addAttribute("success", success);
+        System.out.println("Ser her=??");
+        return "addCustomer";
+    }
+
+
+    //Task 3 FINITO
+    @GetMapping(value = "/editCustomer/{id}")
+    public String updateCustomer(@PathVariable("id") int id, Model model) {
+        ArrayList<Customer> allCustomers = db.getAllCustomers();
+        Customer myCustomer = null;
+        for (Customer c : allCustomers){
+            if (id == c.getId()){
+                myCustomer = c;
+            }
+        }
+        model.addAttribute("editCustomer", myCustomer);
+        return "editCustomer";
+    }
+
+    @PostMapping("/updateCustomer/{id}")
+    public String updateCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
+        System.out.println("REACHED");
+        System.out.println(customer);
+        boolean updatedSuccessfully = db.updateCustomer(customer, String.valueOf(customer.getId()));
+        System.out.println(updatedSuccessfully);
+        model.addAttribute("success", updatedSuccessfully);
+        model.addAttribute("editCustomer", customer);
+
+        //set to main after a spell
+        return "editCustomer";
     }
 
     //Task 4
     @GetMapping("/customer-each-country")
-    public String getCustomersFromEachCountry(){
-        return db.getCustomersFromEachCountry();
+    public String getCustomersFromEachCountry(Model model){
+        model.addAttribute("countries", db.getCustomersFromEachCountry());
+        return "countryCustomers";
     }
 
     //Task 5
     @GetMapping("/getHighestEarningCustomers")
-    public String getHighestEarningCustomers(){
-        return db.getHighestEarningCustomers();
+    public String getHighestEarningCustomers(Model model){
+        model.addAttribute("customers", db.getHighestEarningCustomers());
+        return "highestEarning";
     }
 
     //Task 6
     @GetMapping(value = "/getMostPopularGenreFromSpecificCustomer/{id}")
-    public String getMostPopularGenreFromSpecificCustomer(@PathVariable(name = "id") String id){
-        System.out.println("ID: " + id);
-        return db.getMostPopularGenreFromSpecificCustomer(id);
+    public String getMostPopularGenreFromSpecificCustomer(@PathVariable(name = "id") String id, Model model){
+        ArrayList<String> alltheStrings = db.getMostPopularGenreFromSpecificCustomer(id).getPopularGenres();
+        model.addAttribute("artist", alltheStrings);
+        return "customerGenre";
     }
 }
