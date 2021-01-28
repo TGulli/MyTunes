@@ -3,6 +3,7 @@ package com.example.MyTunes.controller;
 
 import com.example.MyTunes.dataAccess.IRepository;
 import com.example.MyTunes.dataAccess.SQLiteDatabase;
+import com.example.MyTunes.model.Artist;
 import com.example.MyTunes.model.Customer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -116,8 +117,8 @@ public class CustomerController {
     //Task 6
     @GetMapping(value = "api/customers/getMostPopularGenreFromSpecificCustomer/{id}")
     public String getMostPopularGenreFromSpecificCustomer(@PathVariable(name = "id") String id, Model model){
-        ArrayList<String> alltheStrings = db.getMostPopularGenreFromSpecificCustomer(id).getPopularGenres();
-        model.addAttribute("artist", alltheStrings);
+        Artist artist = db.getMostPopularGenreFromSpecificCustomer(id);
+        model.addAttribute("artist", artist);
         return "customerGenre";
     }
 }
