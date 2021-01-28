@@ -13,6 +13,7 @@ public class MyTunesApplication {
 	 * Fix all the front end stuff
 	 * Task 5 should summarize invoice total from all invoices related to arist, not just top.
 	 * Task 6 needs a entry method for getting id. view-all-customers could for instance have a "Show most payed genres" or something
+	 * Find out how to center div's in a list
 	 */
 
 
