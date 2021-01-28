@@ -27,8 +27,21 @@ public class DatabaseRetreiver {
 
             // Process Results
             while (resultSet.next()){
-                System.out.print(resultSet.getString(1) + ", ");
-                System.out.println(resultSet.getString(2));
+                System.out.print("id: " + resultSet.getString(1) + " | ");
+                System.out.print("firstname: " + resultSet.getString(2) + " | ");
+                System.out.print("lastname: " + resultSet.getString(3) + " | ");
+                System.out.print("company: " + resultSet.getString(4) + " | ");
+                System.out.print("address: " + resultSet.getString(5) + " | ");
+                System.out.print("city: " + resultSet.getString(6) + " | ");
+                System.out.print("state: " + resultSet.getString(7) + " | ");
+                System.out.print("country: " + resultSet.getString(8) + " | ");
+                System.out.print("postalcode: " + resultSet.getString(9) + " | ");
+                System.out.print("phone: " + resultSet.getString(10) + " | ");
+                System.out.print("fax: " + resultSet.getString(11) + " | ");
+                System.out.print("email: " + resultSet.getString(12) + " | ");
+                System.out.println("supportId: " + resultSet.getString(13));
+
+
             }
         }
 
