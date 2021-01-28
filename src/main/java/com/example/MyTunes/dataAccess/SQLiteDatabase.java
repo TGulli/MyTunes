@@ -205,8 +205,9 @@ public class SQLiteDatabase implements IRepository{
         try {
             // Prepare Statement
             PreparedStatement preparedStatement =
-                    myConnection.prepareStatement("SELECT Customer.Firstname, Customer.Lastname, Invoice.Total FROM Customer, Invoice" +
-                            " WHERE Customer.CustomerID = Invoice.CustomerID ORDER BY Invoice.Total DESC");
+            myConnection.prepareStatement("SELECT Customer.FirstName, Customer.LastName, SUM(Invoice.Total) AS totalSum" +
+                    " FROM Invoice INNER JOIN Customer ON Customer.CustomerId = Invoice.CustomerId " +
+                    "GROUP BY Invoice.customerId ORDER BY totalSum DESC");
 
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
