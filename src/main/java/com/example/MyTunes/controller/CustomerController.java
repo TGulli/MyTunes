@@ -109,7 +109,7 @@ public class CustomerController {
     //Task 5
     @GetMapping("api/customers/getHighestEarningCustomers")
     public String getHighestEarningCustomers(Model model){
-        model.addAttribute("customers", db.getHighestEarningCustomers());
+        model.addAttribute("earningCustomers", db.getHighestEarningCustomers());
         return "highestEarning";
     }
 

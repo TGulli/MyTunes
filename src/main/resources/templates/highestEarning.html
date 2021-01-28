@@ -2,28 +2,59 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/css/main.css}">
-<script th:src="@{/js/bootstrap.min.js}" ></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
 <head>
     <meta charset="UTF-8">
     <title>View customers</title>
 </head>
 <body>
 
-<div class="container inner-padded">
-    <div class="row justify-content-center align-items-center" style="padding-bottom: 2em;">
-        <h1 class="display-3">Existing customers</h1>
-
-    </div>
-    <div class="row">
-        <div class="col-sm-4" th:each="cust:${customers}">
-            <div class="card shadow-lg p-3 mb-5 bg-white rounded">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${cust}"></h5>
-                </div>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">MyTunes</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/customers/addCustomer">Add customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/customers">View all customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/customers/customer-each-country">View countries</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/customers/getHighestEarningCustomers/">Highest earner</a>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
+</nav>
 
+<div class="container inner-padded">
+    <div class="row justify-content-center align-items-center" style="padding-bottom: 2em;">
+        <h1 class="display-3">Highest earning</h1>
+    </div>
+
+    <table class="table" style="width:100%">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Earning</th>
+        </tr>
+        </thead>
+        <tr th:each="cust:${earningCustomers}">
+            <td th:text="${cust.getName()}"></td>
+            <td th:text="${cust.getEarnings()}"></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

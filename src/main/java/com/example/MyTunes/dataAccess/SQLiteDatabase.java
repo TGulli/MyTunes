@@ -3,6 +3,7 @@ package com.example.MyTunes.dataAccess;
 import com.example.MyTunes.model.Artist;
 import com.example.MyTunes.model.Country;
 import com.example.MyTunes.model.Customer;
+import com.example.MyTunes.model.HighestEarningCostumer;
 import com.example.MyTunes.util.SingletonDBConnector;
 
 import java.sql.Connection;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class SQLiteDatabase implements IRepository{
 
@@ -193,7 +195,7 @@ public class SQLiteDatabase implements IRepository{
     }
 
     @Override
-    public ArrayList<String> getHighestEarningCustomers() {
+    public ArrayList<HighestEarningCostumer> getHighestEarningCustomers() {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
         System.out.println("getCustomersFromEachCountry reached");
@@ -203,16 +205,17 @@ public class SQLiteDatabase implements IRepository{
         try {
             // Prepare Statement
             PreparedStatement preparedStatement =
-                    myConnection.prepareStatement("SELECT Customer.Firstname, Customer.Lastname, Invoice.Total FROM Customer, Invoice" +
-                            " WHERE Customer.CustomerID = Invoice.CustomerID ORDER BY Invoice.Total DESC");
+            myConnection.prepareStatement("SELECT Customer.FirstName, Customer.LastName, SUM(Invoice.Total) AS totalSum" +
+                    " FROM Invoice INNER JOIN Customer ON Customer.CustomerId = Invoice.CustomerId " +
+                    "GROUP BY Invoice.customerId ORDER BY totalSum DESC");
 
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            ArrayList<String> arrayList = new ArrayList<>();
+            ArrayList<HighestEarningCostumer> arrayList = new ArrayList<>();
             // Process Results
             while (resultSet.next()){
-                arrayList.add(resultSet.getString(1) +resultSet.getString(2) + resultSet.getString(3));
+                arrayList.add(new HighestEarningCostumer(resultSet.getString(1) + " " + resultSet.getString(2), resultSet.getString(3)));
             }
             return arrayList;
         }
