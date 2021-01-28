@@ -19,6 +19,63 @@ public class SQLiteDatabase implements IRepository{
 
 
     @Override
+    public ArrayList<String> getAllTracks() {
+        dataBaseConnection = SingletonDBConnector.getInstance();
+        myConnection = dataBaseConnection.getConn();
+        ArrayList<String> recievedTracks = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement =
+                    myConnection.prepareStatement("SELECT Track.Name FROM Track");
+
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process Results
+
+            while (resultSet.next()) {
+                recievedTracks.add(resultSet.getString(1));
+            }
+
+            return recievedTracks;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getAllGenres() {
+        dataBaseConnection = SingletonDBConnector.getInstance();
+        myConnection = dataBaseConnection.getConn();
+        ArrayList<String> recievedGenres = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement =
+                    myConnection.prepareStatement("SELECT Genre.Name FROM Genre");
+
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process Results
+
+            while (resultSet.next()) {
+                recievedGenres.add(resultSet.getString(1));
+            }
+            return recievedGenres;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+
+        return null;
+    }
+
+    @Override
     public ArrayList<Customer> getAllCustomers() {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
