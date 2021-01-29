@@ -8,24 +8,51 @@
     <title>View customers</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">MyTunes</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/customers/addCustomer">Add customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/customers">View all customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/customers/customer-each-country">View countries</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/customers/getHighestEarningCustomers/">Highest earner</a>
+                </li>
+            </ul>
+        </div>
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
 
 <div class="container inner-padded">
-    <div class="row justify-content-center align-items-center" style="padding-bottom: 2em;">
-        <h1 class="display-3">Existing customers</h1>
-
+    <div class="row align-items-center justify-content-center" style="padding-bottom: 2em;">
+        <h1 class="display-4"th:text="'Most popular genre for ' + ${artist.getFirstName()} + ' ' + ${artist.getLastName()}"></h1>
     </div>
-    <div class="row">
-        <div> <!-- Legg til artist.getFirstName() og artist.getLastName() i fancy card -->
-            <div class="col-sm-4" th:each="a:${artist}">
-                <div class="card shadow-lg p-3 mb-5 bg-white rounded">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${a}"></h5>
-                    </div>
-                </div>
+    <div class="row justify-content-center align-items-center border">
+        <div>
+            <div class = "" th:each="genreAndSong:${artist.getPopularGenres()}">
+                <h2 class="card-title" th:text="${genreAndSong}"></h2>
             </div>
         </div>
     </div>
 </div>
+
 
 </body>
 </html>

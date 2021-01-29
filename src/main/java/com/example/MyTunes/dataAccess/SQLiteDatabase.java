@@ -1,8 +1,6 @@
 package com.example.MyTunes.dataAccess;
 
-import com.example.MyTunes.model.Artist;
-import com.example.MyTunes.model.Country;
-import com.example.MyTunes.model.Customer;
+import com.example.MyTunes.model.*;
 import com.example.MyTunes.util.SingletonDBConnector;
 
 import java.sql.Connection;
@@ -11,12 +9,105 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class SQLiteDatabase implements IRepository{
 
     private SingletonDBConnector dataBaseConnection = null;
     private Connection myConnection = null;
 
+
+    @Override
+    public ArrayList<Track> getAllTracks() {
+        dataBaseConnection = SingletonDBConnector.getInstance();
+        myConnection = dataBaseConnection.getConn();
+        ArrayList<Track> recievedTracks = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement =
+                    myConnection.prepareStatement("SELECT Track.TrackId, Track.Name FROM Track");
+
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process Results
+
+            while (resultSet.next()) {
+                recievedTracks.add(new Track(resultSet.getInt(1), resultSet.getString(2)));
+            }
+
+            return recievedTracks;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public ArrayList<Track> searchByTrackId(String trackName) {
+        dataBaseConnection = SingletonDBConnector.getInstance();
+        myConnection = dataBaseConnection.getConn();
+        ArrayList<Track> recievedTracks = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement =
+                    myConnection.prepareStatement("SELECT Track.Name, Artist.Name, Album.Title, Genre.Name FROM Track" +
+                            " INNER JOIN Genre ON Track.GenreId = Genre.GenreId" +
+                            " INNER JOIN Album ON Track.AlbumId = Album.AlbumId" +
+                            " INNER JOIN Artist ON Album.ArtistId = Artist.ArtistId" +
+                            " WHERE Track.Name LIKE ?");
+            preparedStatement.setString(1, "%" + trackName + "%");
+
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process Results
+
+            while (resultSet.next()) {
+                recievedTracks.add(new Track(resultSet.getString(1), resultSet.getString(2),
+                        resultSet.getString(3), resultSet.getString(4)));
+            }
+
+            return recievedTracks;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getAllGenres() {
+        dataBaseConnection = SingletonDBConnector.getInstance();
+        myConnection = dataBaseConnection.getConn();
+        ArrayList<String> recievedGenres = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement =
+                    myConnection.prepareStatement("SELECT Genre.Name FROM Genre");
+
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process Results
+
+            while (resultSet.next()) {
+                recievedGenres.add(resultSet.getString(1));
+            }
+            return recievedGenres;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+
+        return null;
+    }
 
     @Override
     public ArrayList<Customer> getAllCustomers() {
@@ -36,7 +127,7 @@ public class SQLiteDatabase implements IRepository{
 
             while (resultSet.next()) {
                 recievedCustomers.add(new Customer(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),
-                        resultSet.getString(4), resultSet.getString(5),resultSet.getString(6), resultSet.getString(7)));
+                        resultSet.getString(8), resultSet.getString(9),resultSet.getString(10), resultSet.getString(12)));
             }
             return recievedCustomers;
         }
@@ -136,7 +227,7 @@ public class SQLiteDatabase implements IRepository{
     }
 
     @Override
-    public ArrayList<String> getHighestEarningCustomers() {
+    public ArrayList<HighestEarningCostumer> getHighestEarningCustomers() {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
         System.out.println("getCustomersFromEachCountry reached");
@@ -146,16 +237,17 @@ public class SQLiteDatabase implements IRepository{
         try {
             // Prepare Statement
             PreparedStatement preparedStatement =
-                    myConnection.prepareStatement("SELECT Customer.Firstname, Customer.Lastname, Invoice.Total FROM Customer, Invoice" +
-                            " WHERE Customer.CustomerID = Invoice.CustomerID ORDER BY Invoice.Total DESC");
+            myConnection.prepareStatement("SELECT Customer.FirstName, Customer.LastName, SUM(Invoice.Total) AS totalSum" +
+                    " FROM Invoice INNER JOIN Customer ON Customer.CustomerId = Invoice.CustomerId " +
+                    "GROUP BY Invoice.customerId ORDER BY totalSum DESC");
 
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            ArrayList<String> arrayList = new ArrayList<>();
+            ArrayList<HighestEarningCostumer> arrayList = new ArrayList<>();
             // Process Results
             while (resultSet.next()){
-                arrayList.add(resultSet.getString(1) +resultSet.getString(2) + resultSet.getString(3));
+                arrayList.add(new HighestEarningCostumer(resultSet.getString(1) + " " + resultSet.getString(2), resultSet.getString(3)));
             }
             return arrayList;
         }
@@ -197,7 +289,7 @@ public class SQLiteDatabase implements IRepository{
             while (resultSet.next()){
                 firstName = resultSet.getString(1);
                 lastName = resultSet.getString(2);
-                genreAndSongs.add(resultSet.getString(3) + " number " + resultSet.getString(4));
+                genreAndSongs.add("Genre: " + resultSet.getString(3) + " | Number of songs: " + resultSet.getString(4));
             }
             System.out.println(genreAndSongs);
             Artist myArtist = new Artist(firstName,lastName, genreAndSongs);

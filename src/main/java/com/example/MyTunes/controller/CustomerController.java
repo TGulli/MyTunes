@@ -3,17 +3,20 @@ package com.example.MyTunes.controller;
 
 import com.example.MyTunes.dataAccess.IRepository;
 import com.example.MyTunes.dataAccess.SQLiteDatabase;
+import com.example.MyTunes.model.Artist;
 import com.example.MyTunes.model.Customer;
+import com.example.MyTunes.model.Track;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Random;
 
 //@RestController
 @Controller
-@RequestMapping("api/customers")
 public class CustomerController {
     /**
      * CRUD OPERATIONS.
@@ -22,8 +25,39 @@ public class CustomerController {
 
     IRepository db = new SQLiteDatabase();
 
+    @GetMapping("api/customers/searchPage")
+    public String createCustomer(@RequestParam(value = "searchString", required = true) String searchString, Model model){
+        System.out.println("Searching for: " + searchString);
+        ArrayList<Track> tracks = db.searchByTrackId(searchString);
+        model.addAttribute("searchedTracks", tracks);
+        model.addAttribute("searchString", searchString);
+
+        return "searchPage";
+    }
+
+    @GetMapping()
+    public String getCustomers(Model model){
+        ArrayList<Customer> customers = db.getAllCustomers();
+        ArrayList<Customer> randomCustomers = new ArrayList<>();
+        ArrayList<Track> tracks = db.getAllTracks();
+        ArrayList<Track> randomTracks = new ArrayList<>();
+        ArrayList<String> genres = db.getAllGenres();
+        ArrayList<String> randomGenres = new ArrayList<>();
+        Random ran = new Random();
+
+        for (int i = 0; i < 5; i++) {
+            randomCustomers.add(customers.get(ran.nextInt(customers.size())));
+            randomTracks.add(tracks.get(ran.nextInt(tracks.size())));
+            randomGenres.add(genres.get(ran.nextInt(genres.size())));
+        }
+        model.addAttribute("customers", randomCustomers);
+        model.addAttribute("tracks", randomTracks);
+        model.addAttribute("genres", randomGenres);
+        return "home";
+    }
+
     //task 1
-    @GetMapping
+    @GetMapping("api/customers")
     public String getAllCustomers(Model model){
         model.addAttribute("customers", db.getAllCustomers());
         return "view-all-customers";
@@ -35,13 +69,13 @@ public class CustomerController {
      */
 
     //Task 2
-    @GetMapping("/addCustomer")
+    @GetMapping("api/customers/addCustomer")
     public String createCustomer(Model model){
         model.addAttribute("customer", new Customer(0, "test", "teas", "", "", "", ""));
         return "addCustomer";
     }
 
-    @PostMapping("/addCustomer")
+    @PostMapping("api/customers/addCustomer")
     public String createCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
         Boolean success = db.createCustomer(customer);
         System.out.println("Status: " + success);
@@ -52,7 +86,7 @@ public class CustomerController {
 
 
     //Task 3 FINITO
-    @GetMapping(value = "/editCustomer/{id}")
+    @GetMapping(value = "api/customers/editCustomer/{id}")
     public String updateCustomer(@PathVariable("id") int id, Model model) {
         ArrayList<Customer> allCustomers = db.getAllCustomers();
         Customer myCustomer = null;
@@ -65,7 +99,7 @@ public class CustomerController {
         return "editCustomer";
     }
 
-    @PostMapping("/updateCustomer/{id}")
+    @PostMapping("api/customers/updateCustomer/{id}")
     public String updateCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
         System.out.println("REACHED");
         System.out.println(customer);
@@ -79,24 +113,24 @@ public class CustomerController {
     }
 
     //Task 4
-    @GetMapping("/customer-each-country")
+    @GetMapping("api/customers/customer-each-country")
     public String getCustomersFromEachCountry(Model model){
         model.addAttribute("countries", db.getCustomersFromEachCountry());
         return "countryCustomers";
     }
 
     //Task 5
-    @GetMapping("/getHighestEarningCustomers")
+    @GetMapping("api/customers/getHighestEarningCustomers")
     public String getHighestEarningCustomers(Model model){
-        model.addAttribute("customers", db.getHighestEarningCustomers());
+        model.addAttribute("earningCustomers", db.getHighestEarningCustomers());
         return "highestEarning";
     }
 
     //Task 6
-    @GetMapping(value = "/getMostPopularGenreFromSpecificCustomer/{id}")
+    @GetMapping(value = "api/customers/getMostPopularGenreFromSpecificCustomer/{id}")
     public String getMostPopularGenreFromSpecificCustomer(@PathVariable(name = "id") String id, Model model){
-        ArrayList<String> alltheStrings = db.getMostPopularGenreFromSpecificCustomer(id).getPopularGenres();
-        model.addAttribute("artist", alltheStrings);
+        Artist artist = db.getMostPopularGenreFromSpecificCustomer(id);
+        model.addAttribute("artist", artist);
         return "customerGenre";
     }
 }
