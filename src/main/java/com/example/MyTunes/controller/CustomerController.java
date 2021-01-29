@@ -23,6 +23,15 @@ public class CustomerController {
 
     IRepository db = new SQLiteDatabase();
 
+    @PostMapping("api/customers/{searchPage}")
+    public String createCustomer(@PathVariable("searchPage") int searchString, Model model){
+        Boolean success = ;
+        System.out.println("Status: " + success);
+        model.addAttribute("success", success);
+        System.out.println("Ser her=??");
+        return "addCustomer";
+    }
+
     @GetMapping()
     public String getCustomers(Model model){
         ArrayList<Customer> customers = db.getAllCustomers();
