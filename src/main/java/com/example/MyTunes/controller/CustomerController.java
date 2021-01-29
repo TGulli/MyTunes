@@ -5,12 +5,14 @@ import com.example.MyTunes.dataAccess.IRepository;
 import com.example.MyTunes.dataAccess.SQLiteDatabase;
 import com.example.MyTunes.model.Artist;
 import com.example.MyTunes.model.Customer;
+import com.example.MyTunes.model.Track;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 //@RestController
@@ -23,21 +25,22 @@ public class CustomerController {
 
     IRepository db = new SQLiteDatabase();
 
-    @PostMapping("api/customers/{searchPage}")
-    public String createCustomer(@PathVariable("searchPage") int searchString, Model model){
-        Boolean success = ;
-        System.out.println("Status: " + success);
-        model.addAttribute("success", success);
-        System.out.println("Ser her=??");
-        return "addCustomer";
+    @GetMapping("api/customers/searchPage")
+    public String createCustomer(@RequestParam(value = "searchString", required = true) String searchString, Model model){
+        System.out.println("Searching for: " + searchString);
+        ArrayList<Track> tracks = db.searchByTrackId(searchString);
+        model.addAttribute("searchedTracks", tracks);
+        model.addAttribute("searchString", searchString);
+
+        return "searchPage";
     }
 
     @GetMapping()
     public String getCustomers(Model model){
         ArrayList<Customer> customers = db.getAllCustomers();
         ArrayList<Customer> randomCustomers = new ArrayList<>();
-        ArrayList<String> tracks = db.getAllTracks();
-        ArrayList<String> randomTracks = new ArrayList<>();
+        ArrayList<Track> tracks = db.getAllTracks();
+        ArrayList<Track> randomTracks = new ArrayList<>();
         ArrayList<String> genres = db.getAllGenres();
         ArrayList<String> randomGenres = new ArrayList<>();
         Random ran = new Random();

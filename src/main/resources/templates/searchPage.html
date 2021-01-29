@@ -40,19 +40,23 @@
 
 <div class="container inner-padded">
     <div class="row justify-content-center align-items-center" style="padding-bottom: 2em;">
-        <h1 class="display-3">Search results for <p th:text="${song}"></p> </h1>
+        <h1 class="display-3">Search results for <p th:text="${searchString}"></p> </h1>
     </div>
 
     <table class="table" style="width:100%">
         <thead>
         <tr>
-            <th scope="col">Country</th>
-            <th scope="col">Number of people</th>
+            <th scope="col">Track name</th>
+            <th scope="col">Artist</th>
+            <th scope="col">Album</th>
+            <th scope="col">Genre</th>
         </tr>
         </thead>
-        <tr th:each="country:${countries}">
-            <td th:text="${country.getNameOfCountry()}"></td>
-            <td th:text="${country.getNumberOfPeople()}"></td>
+        <tr th:each="track:${searchedTracks}">
+            <td th:text="${track.getTrackName()}"></td>
+            <td th:text="${track.getArtistName()}"></td>
+            <td th:text="${track.getAlbumName()}"></td>
+            <td th:text="${track.getGenre()}"></td>
         </tr>
     </table>
 </div>
