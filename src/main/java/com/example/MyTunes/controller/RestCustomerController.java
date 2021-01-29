@@ -47,4 +47,6 @@ public class RestCustomerController {
         ArrayList<HighestEarningCostumer> spenders = db.getHighestEarningCustomers();
         return spenders;
     }
+
+    //TODO: Write me
 }

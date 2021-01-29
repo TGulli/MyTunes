@@ -11,8 +11,13 @@ public class MyTunesApplication {
 	/**
 	 * TODO:
 	 * Refactor and delete unused methods
-	 * Make frontend pretty (add, edit)
-	 * Needs restcontroller AND controller. Controller works internally with thyme and Restcontroller for exposing the api.
+	 * Comment everything
+	 * Add button -> Edit button
+	 * SearchTrack instead of Search
+	 * Add nav page search bar to all pages except home
+	 * README
+	 * Docker on Heroku
+	 * Postman tests against the API
 	 */
 
 
