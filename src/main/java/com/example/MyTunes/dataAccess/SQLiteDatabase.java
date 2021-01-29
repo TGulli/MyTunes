@@ -1,9 +1,6 @@
 package com.example.MyTunes.dataAccess;
 
-import com.example.MyTunes.model.Artist;
-import com.example.MyTunes.model.Country;
-import com.example.MyTunes.model.Customer;
-import com.example.MyTunes.model.HighestEarningCostumer;
+import com.example.MyTunes.model.*;
 import com.example.MyTunes.util.SingletonDBConnector;
 
 import java.sql.Connection;
@@ -21,14 +18,14 @@ public class SQLiteDatabase implements IRepository{
 
 
     @Override
-    public ArrayList<String> getAllTracks() {
+    public ArrayList<Track> getAllTracks() {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
-        ArrayList<String> recievedTracks = new ArrayList<>();
+        ArrayList<Track> recievedTracks = new ArrayList<>();
 
         try {
             PreparedStatement preparedStatement =
-                    myConnection.prepareStatement("SELECT Track.Name FROM Track");
+                    myConnection.prepareStatement("SELECT Track.TrackId, Track.Name FROM Track");
 
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -36,7 +33,42 @@ public class SQLiteDatabase implements IRepository{
             // Process Results
 
             while (resultSet.next()) {
-                recievedTracks.add(resultSet.getString(1));
+                recievedTracks.add(new Track(resultSet.getInt(1), resultSet.getString(2)));
+            }
+
+            return recievedTracks;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public ArrayList<Track> searchByTrackId(String trackName) {
+        dataBaseConnection = SingletonDBConnector.getInstance();
+        myConnection = dataBaseConnection.getConn();
+        ArrayList<Track> recievedTracks = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement =
+                    myConnection.prepareStatement("SELECT Track.Name, Artist.Name, Album.Title, Genre.Name FROM Track" +
+                            " INNER JOIN Genre ON Track.GenreId = Genre.GenreId" +
+                            " INNER JOIN Album ON Track.AlbumId = Album.AlbumId" +
+                            " INNER JOIN Artist ON Album.ArtistId = Artist.ArtistId" +
+                            " WHERE Track.Name LIKE ?");
+            preparedStatement.setString(1, "%" + trackName + "%");
+
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process Results
+
+            while (resultSet.next()) {
+                recievedTracks.add(new Track(resultSet.getString(1), resultSet.getString(2),
+                        resultSet.getString(3), resultSet.getString(4)));
             }
 
             return recievedTracks;
