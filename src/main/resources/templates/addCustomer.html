@@ -10,6 +10,35 @@
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">MyTunes</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/customers/addCustomer">Add customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/customers">View all customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/customers/customer-each-country">View countries</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/customers/getHighestEarningCustomers/">Highest earner</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <div class="container inner-padded">
     <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${success}">
         <strong>Success!</strong> The new customer was added.
@@ -19,7 +48,7 @@
     </div>
 
     <div class="row justify-content-center align-items-center">
-        <h1 class="display-3">New customer</h1>
+        <h1 class="display-3">Add new customer</h1>
     </div>
     <div class="row">
         <div class="col-sm-6 offset-3">
@@ -27,32 +56,32 @@
                 <div class="card-body">
                     <form action="#" th:action="@{/addCustomer}" th:object="${customer}" method="post">
                         <div class="form-group">
-                            <label for="firstName">first name</label>
-                            <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required />
+                            <label for="firstName">First name</label>
+                            <input type="text" class="form-control" id="FirstName" th:field="*{firstName}" required />
                             <small id="firstNameHint" class="form-text text-muted">Enter first name</small>
                         </div>
                         <div class="form-group">
-                            <label for="lastName">last name</label>
+                            <label for="lastName">Last name</label>
                             <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required />
                             <small id="lastNameHint" class="form-text text-muted">Enter last name</small>
                         </div>
                         <div class="form-group">
-                            <label for="country">country</label>
+                            <label for="country">Country</label>
                             <input type="text" class="form-control" id="country" th:field="*{country}" required />
                             <small id="countryHint" class="form-text text-muted">Enter country</small>
                         </div>
                         <div class="form-group">
-                            <label for="postalCode">postal code</label>
+                            <label for="postalCode">Postal code</label>
                             <input type="number" class="form-control" id="postalCode" th:field="*{postalCode}" required />
                             <small id="postalCodeHint" class="form-text text-muted">Enter postal code</small>
                         </div>
                         <div class="form-group">
-                            <label for="inputPhone">Phone</label>
+                            <label for="inputPhone">Phone number</label>
                             <input type="text" class="form-control" id="inputPhone" th:field="*{phoneNumber}" required />
                             <small id="phoneHelp" class="form-text text-muted">Enter phone number</small>
                         </div>
                         <div class="form-group">
-                            <label for="ePost">email</label>
+                            <label for="ePost">Email</label>
                             <input type="email" class="form-control" id="ePost" th:field="*{email}" required />
                             <small id="ePostHint" class="form-text text-muted">Enter email</small>
                         </div>

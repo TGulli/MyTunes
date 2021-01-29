@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class SQLiteDatabase implements IRepository{
@@ -258,7 +257,7 @@ public class SQLiteDatabase implements IRepository{
     }
 
     @Override
-    public Artist getMostPopularGenreFromSpecificCustomer(String id) {
+    public PopularGenres getMostPopularGenreFromSpecificCustomer(String id) {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
         System.out.println("getCustomersFromEachCountry reached");
@@ -282,19 +281,19 @@ public class SQLiteDatabase implements IRepository{
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            ArrayList<String> genreAndSongs = new ArrayList<>();
+            HashMap<String, String> genreAndSongs = new HashMap<>();
             // Process Results
             String firstName = "";
             String lastName = "";
             while (resultSet.next()){
                 firstName = resultSet.getString(1);
                 lastName = resultSet.getString(2);
-                genreAndSongs.add("Genre: " + resultSet.getString(3) + " | Number of songs: " + resultSet.getString(4));
+                genreAndSongs.put(resultSet.getString(3), resultSet.getString(4));
             }
             System.out.println(genreAndSongs);
-            Artist myArtist = new Artist(firstName,lastName, genreAndSongs);
+            PopularGenres myPopularGenres = new PopularGenres(firstName,lastName, genreAndSongs);
 
-            return myArtist;
+            return myPopularGenres;
 
         }
         catch (SQLException e){

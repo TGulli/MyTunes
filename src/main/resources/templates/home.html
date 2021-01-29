@@ -35,20 +35,19 @@
                 </li>
             </ul>
         </div>
-        <form class="d-flex" th:action="@{/api/customers/searchPage}" method="get">,
+        <form class="d-flex" th:action="@{/api/customers/searchPage}" method="get">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" required="required" th:name="searchString">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
     </div>
 </nav>
-
+<br><br>
 
 <div class="container inner-padded">
-    <div class="row align-items-center justify-content-center" style="padding-bottom: 2em;">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
             <div class="col">
                 <b>5 Random artists:</b>
-                <table style="width:100%">
+                <table class="table" style="width:100%">
                     <tr th:each="cust : ${customers}">
                         <td th:text="${cust.getFirstName()} + ' ' + ${cust.getLastName()}"></td>
                     </tr>
@@ -56,7 +55,7 @@
             </div>
             <div class="col">
                 <b>5 Random tracks:</b>
-                <table style="width:100%">
+                <table class="table" style="width:100%">
                     <tr  th:each="track : ${tracks}">
                         <td th:text="${track.getTrackName()}"></td>
                     </tr>
@@ -64,7 +63,7 @@
             </div>
             <div class="col">
                 <b>5 Random genres:</b>
-                <table style="width:100%">
+                <table class="table" style="width:100%">
                     <tr th:each="genre : ${genres}">
                         <td th:text="${genre}"></td>
                     </tr>
@@ -72,7 +71,6 @@
             </div>
         </div>
     </div>
-</div>
 
 </body>
 

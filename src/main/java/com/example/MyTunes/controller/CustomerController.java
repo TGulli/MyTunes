@@ -3,7 +3,7 @@ package com.example.MyTunes.controller;
 
 import com.example.MyTunes.dataAccess.IRepository;
 import com.example.MyTunes.dataAccess.SQLiteDatabase;
-import com.example.MyTunes.model.Artist;
+import com.example.MyTunes.model.PopularGenres;
 import com.example.MyTunes.model.Customer;
 import com.example.MyTunes.model.Track;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Random;
 
 //@RestController
@@ -71,7 +70,7 @@ public class CustomerController {
     //Task 2
     @GetMapping("api/customers/addCustomer")
     public String createCustomer(Model model){
-        model.addAttribute("customer", new Customer(0, "test", "teas", "", "", "", ""));
+        model.addAttribute("customer", new Customer(0, "", "", "", "", "", ""));
         return "addCustomer";
     }
 
@@ -129,8 +128,8 @@ public class CustomerController {
     //Task 6
     @GetMapping(value = "api/customers/getMostPopularGenreFromSpecificCustomer/{id}")
     public String getMostPopularGenreFromSpecificCustomer(@PathVariable(name = "id") String id, Model model){
-        Artist artist = db.getMostPopularGenreFromSpecificCustomer(id);
-        model.addAttribute("artist", artist);
+        PopularGenres popularGenres = db.getMostPopularGenreFromSpecificCustomer(id);
+        model.addAttribute("popularGenres", popularGenres);
         return "customerGenre";
     }
 }

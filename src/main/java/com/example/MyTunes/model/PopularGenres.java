@@ -1,13 +1,14 @@
 package com.example.MyTunes.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Artist {
+public class PopularGenres {
     private String firstName;
     private String lastName;
-    private ArrayList<String> popularGenres;
+    private HashMap<String, String> popularGenres; // key = Genre, id = number of songs
 
-    public Artist(String firstName, String lastName, ArrayList<String> popularGenres) {
+    public PopularGenres(String firstName, String lastName, HashMap<String, String> popularGenres) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.popularGenres = popularGenres;
@@ -29,11 +30,11 @@ public class Artist {
         this.lastName = lastName;
     }
 
-    public ArrayList<String> getPopularGenres() {
+    public HashMap<String, String> getPopularGenres() {
         return popularGenres;
     }
 
-    public void setPopularGenres(ArrayList<String> popularGenres) {
+    public void setPopularGenres(HashMap<String, String> popularGenres) {
         this.popularGenres = popularGenres;
     }
 }
