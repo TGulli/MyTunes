@@ -12,9 +12,6 @@ public class MyTunesApplication {
 	 * TODO:
 	 * Refactor and delete unused methods
 	 * Comment everything
-	 * Add button -> Edit button
-	 * SearchTrack instead of Search
-	 * Add nav page search bar to all pages except home
 	 * README
 	 * Docker on Heroku
 	 * Postman tests against the API
