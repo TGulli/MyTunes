@@ -14,7 +14,6 @@ public class MyTunesApplication {
 	 * Make frontend pretty (add, edit)
 	 * Needs restcontroller AND controller. Controller works internally with thyme and Restcontroller for exposing the api.
 	 * The database methods should probably return JSON objects.
-	 * Search result page
 	 */
 
 
