@@ -8,38 +8,49 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+
+
+/**
+ * Class for handling the SQLlite Database
+ * Imports the IRepository for generic database functions.
+ */
+
 
 public class SQLiteDatabase implements IRepository{
 
+    //Set singleton database to null
     private SingletonDBConnector dataBaseConnection = null;
     private Connection myConnection = null;
 
 
     @Override
     public ArrayList<Track> getAllTracks() {
+        //Gets instance of Singleton Database
         dataBaseConnection = SingletonDBConnector.getInstance();
+        //Open connection
         myConnection = dataBaseConnection.getConn();
-        ArrayList<Track> recievedTracks = new ArrayList<>();
+        ArrayList<Track> receivedTracks = new ArrayList<>();
 
         try {
             PreparedStatement preparedStatement =
                     myConnection.prepareStatement("SELECT Track.TrackId, Track.Name FROM Track");
 
-            // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Process Results
-
+            //Add all findings to arraylist
             while (resultSet.next()) {
-                recievedTracks.add(new Track(resultSet.getInt(1), resultSet.getString(2)));
+                receivedTracks.add(new Track(resultSet.getInt(1), resultSet.getString(2)));
             }
 
-            return recievedTracks;
+            return receivedTracks;
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
+        }
+        finally {
+            //Close current connection
+            dataBaseConnection.closeConnection();
         }
 
 
@@ -50,7 +61,7 @@ public class SQLiteDatabase implements IRepository{
     public ArrayList<Track> searchByTrackId(String trackName) {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
-        ArrayList<Track> recievedTracks = new ArrayList<>();
+        ArrayList<Track> receivedTracks = new ArrayList<>();
 
         try {
             PreparedStatement preparedStatement =
@@ -61,20 +72,20 @@ public class SQLiteDatabase implements IRepository{
                             " WHERE Track.Name LIKE ?");
             preparedStatement.setString(1, "%" + trackName + "%");
 
-            // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Process Results
-
             while (resultSet.next()) {
-                recievedTracks.add(new Track(resultSet.getString(1), resultSet.getString(2),
+                receivedTracks.add(new Track(resultSet.getString(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getString(4)));
             }
 
-            return recievedTracks;
+            return receivedTracks;
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
+        }
+        finally {
+            dataBaseConnection.closeConnection();
         }
 
 
@@ -85,24 +96,24 @@ public class SQLiteDatabase implements IRepository{
     public ArrayList<String> getAllGenres() {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
-        ArrayList<String> recievedGenres = new ArrayList<>();
+        ArrayList<String> receivedGenres = new ArrayList<>();
 
         try {
             PreparedStatement preparedStatement =
                     myConnection.prepareStatement("SELECT Genre.Name FROM Genre");
 
-            // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Process Results
-
             while (resultSet.next()) {
-                recievedGenres.add(resultSet.getString(1));
+                receivedGenres.add(resultSet.getString(1));
             }
-            return recievedGenres;
+            return receivedGenres;
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
+        }
+        finally {
+            dataBaseConnection.closeConnection();
         }
 
 
@@ -113,8 +124,7 @@ public class SQLiteDatabase implements IRepository{
     public ArrayList<Customer> getAllCustomers() {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
-        System.out.println("Triggered by postman");
-        ArrayList<Customer> recievedCustomers = new ArrayList<>();
+        ArrayList<Customer> receivedCustomers = new ArrayList<>();
 
         try {
             PreparedStatement preparedStatement =
@@ -124,15 +134,17 @@ public class SQLiteDatabase implements IRepository{
             ResultSet resultSet = preparedStatement.executeQuery();
 
             // Process Results
-
             while (resultSet.next()) {
-                recievedCustomers.add(new Customer(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),
+                receivedCustomers.add(new Customer(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),
                         resultSet.getString(8), resultSet.getString(9),resultSet.getString(10), resultSet.getString(12)));
             }
-            return recievedCustomers;
+            return receivedCustomers;
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
+        }
+        finally {
+            dataBaseConnection.closeConnection();
         }
 
 
@@ -143,9 +155,6 @@ public class SQLiteDatabase implements IRepository{
     public boolean createCustomer(Customer customer) {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
-        System.out.println("createCustomer reached");
-        System.out.println(customer.toString());
-
 
         try {
 
@@ -165,6 +174,9 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
+        finally {
+            dataBaseConnection.closeConnection();
+        }
         return false;
     }
 
@@ -172,7 +184,6 @@ public class SQLiteDatabase implements IRepository{
     public boolean updateCustomer(Customer customer, String id) {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
-        System.out.println("updateCustomer reached");
 
         try {
             PreparedStatement createCustomerStatement =
@@ -192,6 +203,10 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
+        finally {
+            dataBaseConnection.closeConnection();
+        }
+
         return false;
     }
 
@@ -199,9 +214,6 @@ public class SQLiteDatabase implements IRepository{
     public ArrayList<Country> getCustomersFromEachCountry() {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
-        System.out.println("getCustomersFromEachCountry reached");
-        StringBuilder returnString = new StringBuilder();
-
 
         try {
             // Prepare Statement
@@ -223,16 +235,17 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
+        finally{
+            dataBaseConnection.closeConnection();
+        }
+
         return null;
     }
 
     @Override
-    public ArrayList<HighestEarningCostumer> getHighestEarningCustomers() {
+    public ArrayList<HighestEarningCostumer> getHighestSpendingCustomers() {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
-        System.out.println("getCustomersFromEachCountry reached");
-        StringBuilder returnString = new StringBuilder();
-
 
         try {
             // Prepare Statement
@@ -254,15 +267,16 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
+        finally {
+            dataBaseConnection.closeConnection();
+        }
         return null;
     }
 
     @Override
-    public Artist getMostPopularGenreFromSpecificCustomer(String id) {
+    public PopularGenres getMostPopularGenreFromSpecificCustomer(String id) {
         dataBaseConnection = SingletonDBConnector.getInstance();
         myConnection = dataBaseConnection.getConn();
-        System.out.println("getCustomersFromEachCountry reached");
-        StringBuilder returnString = new StringBuilder();
 
         try {
             PreparedStatement preparedStatement =
@@ -282,23 +296,26 @@ public class SQLiteDatabase implements IRepository{
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            ArrayList<String> genreAndSongs = new ArrayList<>();
+            //Map for keeping Song and Song numbers
+            HashMap<String, String> genreAndSongs = new HashMap<>();
             // Process Results
             String firstName = "";
             String lastName = "";
             while (resultSet.next()){
                 firstName = resultSet.getString(1);
                 lastName = resultSet.getString(2);
-                genreAndSongs.add("Genre: " + resultSet.getString(3) + " | Number of songs: " + resultSet.getString(4));
+                genreAndSongs.put(resultSet.getString(3), resultSet.getString(4));
             }
             System.out.println(genreAndSongs);
-            Artist myArtist = new Artist(firstName,lastName, genreAndSongs);
 
-            return myArtist;
+            return new PopularGenres(firstName,lastName, genreAndSongs);
 
         }
         catch (SQLException e){
             System.out.println(e.getMessage());
+        }
+        finally {
+            dataBaseConnection.closeConnection();
         }
         return null;
     }

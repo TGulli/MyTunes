@@ -3,8 +3,9 @@ package com.example.MyTunes.controller;
 
 import com.example.MyTunes.dataAccess.IRepository;
 import com.example.MyTunes.dataAccess.SQLiteDatabase;
-import com.example.MyTunes.model.Artist;
+import com.example.MyTunes.model.PopularGenres;
 import com.example.MyTunes.model.Customer;
+import com.example.MyTunes.model.RandomLists;
 import com.example.MyTunes.model.Track;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,125 +13,105 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Random;
 
-//@RestController
+import static com.example.MyTunes.util.Extractor.extractCustomerById;
+import static com.example.MyTunes.util.Extractor.extractRandomElements;
+
+/**
+ * Controller used internally with Thymeleaf
+ */
+
+
 @Controller
 public class CustomerController {
-    /**
-     * CRUD OPERATIONS.
-     * Create, Read, Update, Delete
-     */
 
+    //Interface instantiation for dependency inversion
     IRepository db = new SQLiteDatabase();
 
-    @GetMapping("api/customers/searchPage")
-    public String createCustomer(@RequestParam(value = "searchString", required = true) String searchString, Model model){
-        System.out.println("Searching for: " + searchString);
-        ArrayList<Track> tracks = db.searchByTrackId(searchString);
-        model.addAttribute("searchedTracks", tracks);
-        model.addAttribute("searchString", searchString);
-
-        return "searchPage";
-    }
-
+    //Home page random lists: Retrieves and extracts 5 random elements from customers, tracks and genres.
     @GetMapping()
-    public String getCustomers(Model model){
-        ArrayList<Customer> customers = db.getAllCustomers();
-        ArrayList<Customer> randomCustomers = new ArrayList<>();
-        ArrayList<Track> tracks = db.getAllTracks();
-        ArrayList<Track> randomTracks = new ArrayList<>();
-        ArrayList<String> genres = db.getAllGenres();
-        ArrayList<String> randomGenres = new ArrayList<>();
-        Random ran = new Random();
-
-        for (int i = 0; i < 5; i++) {
-            randomCustomers.add(customers.get(ran.nextInt(customers.size())));
-            randomTracks.add(tracks.get(ran.nextInt(tracks.size())));
-            randomGenres.add(genres.get(ran.nextInt(genres.size())));
-        }
-        model.addAttribute("customers", randomCustomers);
-        model.addAttribute("tracks", randomTracks);
-        model.addAttribute("genres", randomGenres);
+    public String getRandomElements(Model model){
+        //POJO object for holding 3 ArrayLists containing the random objects.
+        RandomLists randomLists = extractRandomElements(db.getAllCustomers(), db.getAllTracks(), db.getAllGenres());
+        model.addAttribute("customers", randomLists.getCustomers());
+        model.addAttribute("tracks", randomLists.getTracks());
+        model.addAttribute("genres", randomLists.getGenres());
         return "home";
     }
 
-    //task 1
-    @GetMapping("api/customers")
+    //Task 1: Retreives all customers
+    @GetMapping("customers")
     public String getAllCustomers(Model model){
         model.addAttribute("customers", db.getAllCustomers());
         return "view-all-customers";
     }
 
-    /**
-     * Adding works fine, but @Controller won't work in POstman
-     * @RestController will work, but screw up the thymeleaf html pointer
-     */
-
-    //Task 2
-    @GetMapping("api/customers/addCustomer")
-    public String createCustomer(Model model){
-        model.addAttribute("customer", new Customer(0, "test", "teas", "", "", "", ""));
+    //Task 2: Creates an empty object for filling out in HTML form
+    @GetMapping("customers/addCustomer")
+    public String getCustomer(Model model){
+        model.addAttribute("customer", new Customer(0, "", "", "", "", "", ""));
         return "addCustomer";
     }
 
-    @PostMapping("api/customers/addCustomer")
-    public String createCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
+    //Task 2: Retrieves object from HTML form and add it to database
+    @PostMapping("customers/addCustomer")
+    public String addCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
         Boolean success = db.createCustomer(customer);
-        System.out.println("Status: " + success);
         model.addAttribute("success", success);
-        System.out.println("Ser her=??");
         return "addCustomer";
     }
 
 
-    //Task 3 FINITO
-    @GetMapping(value = "api/customers/editCustomer/{id}")
+    //Task 3: GetMapping method for importing customer object to fill out html form
+    @GetMapping(value = "customers/editCustomer/{id}")
     public String updateCustomer(@PathVariable("id") int id, Model model) {
-        ArrayList<Customer> allCustomers = db.getAllCustomers();
-        Customer myCustomer = null;
-        for (Customer c : allCustomers){
-            if (id == c.getId()){
-                myCustomer = c;
-            }
+        Customer myCustomer = extractCustomerById(db.getAllCustomers(), id);
+        //Check for parameter injection, ID should be retrieved by get method
+        if (myCustomer != null) {
+            model.addAttribute("editCustomer", myCustomer);
         }
-        model.addAttribute("editCustomer", myCustomer);
         return "editCustomer";
     }
 
-    @PostMapping("api/customers/updateCustomer/{id}")
+    //Task 3: Postmapping method for handling HTML form in editCustomer.html
+    @PostMapping("customers/updateCustomer/{id}")
     public String updateCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
-        System.out.println("REACHED");
-        System.out.println(customer);
         boolean updatedSuccessfully = db.updateCustomer(customer, String.valueOf(customer.getId()));
-        System.out.println(updatedSuccessfully);
         model.addAttribute("success", updatedSuccessfully);
         model.addAttribute("editCustomer", customer);
-
-        //set to main after a spell
         return "editCustomer";
     }
 
-    //Task 4
-    @GetMapping("api/customers/customer-each-country")
+    //Task 4: Retrieve sorted list of countries with most customers
+    @GetMapping("customers/customer-each-country")
     public String getCustomersFromEachCountry(Model model){
         model.addAttribute("countries", db.getCustomersFromEachCountry());
         return "countryCustomers";
     }
 
-    //Task 5
-    @GetMapping("api/customers/getHighestEarningCustomers")
+    //Task 5: Get highest earning customers
+    @GetMapping("customers/getHighestEarningCustomers")
     public String getHighestEarningCustomers(Model model){
-        model.addAttribute("earningCustomers", db.getHighestEarningCustomers());
+        model.addAttribute("earningCustomers", db.getHighestSpendingCustomers());
         return "highestEarning";
     }
 
-    //Task 6
-    @GetMapping(value = "api/customers/getMostPopularGenreFromSpecificCustomer/{id}")
+    //Task 6: Retreieve the most popular genres for given artist
+    @GetMapping(value = "customers/getMostPopularGenreFromSpecificCustomer/{id}")
     public String getMostPopularGenreFromSpecificCustomer(@PathVariable(name = "id") String id, Model model){
-        Artist artist = db.getMostPopularGenreFromSpecificCustomer(id);
-        model.addAttribute("artist", artist);
+        //POJO object for arist name and genres (name and number of songs)
+        PopularGenres popularGenres = db.getMostPopularGenreFromSpecificCustomer(id);
+        model.addAttribute("popularGenres", popularGenres);
         return "customerGenre";
+    }
+
+    //Search field in NavBar for all pages.
+    @GetMapping("customers/searchPage")
+    public String searchForTrackById(@RequestParam(value = "searchString") String searchString, Model model){
+        ArrayList<Track> tracks = db.searchByTrackId(searchString);
+        model.addAttribute("searchedTracks", tracks);
+        model.addAttribute("searchString", searchString);
+
+        return "searchPage";
     }
 }
