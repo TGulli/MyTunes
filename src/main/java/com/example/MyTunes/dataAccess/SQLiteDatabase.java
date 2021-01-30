@@ -299,7 +299,7 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-     
+
         return null;
     }
 }
