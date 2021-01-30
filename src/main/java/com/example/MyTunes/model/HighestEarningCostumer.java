@@ -1,8 +1,13 @@
 package com.example.MyTunes.model;
 
+/**
+ * POJO for HighestEarningCustomer
+ */
+
+
 public class HighestEarningCostumer {
-    private String name;
-    private String earnings;
+    private final String name;
+    private final String earnings;
 
     public HighestEarningCostumer(String name, String earnings) {
         this.name = name;

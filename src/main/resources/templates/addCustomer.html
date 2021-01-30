@@ -57,7 +57,7 @@
         <div class="col-sm-6 offset-3">
             <div class="card shadow-lg p-3 mb-5 bg-white rounded">
                 <div class="card-body">
-                    <form action="#" th:action="@{/addCustomer}" th:object="${customer}" method="post">
+                    <form action="#" th:action="@{/api/customers/addCustomer}" th:object="${customer}" method="post">
                         <div class="form-group">
                             <label for="firstName">First name</label>
                             <input type="text" class="form-control" id="FirstName" th:field="*{firstName}" required />

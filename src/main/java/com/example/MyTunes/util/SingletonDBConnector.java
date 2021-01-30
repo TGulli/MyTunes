@@ -1,6 +1,11 @@
 package com.example.MyTunes.util;
 
 import java.sql.*;
+import java.util.Objects;
+
+/**
+ * SingleTon class for handling Database connection
+ */
 
 public class SingletonDBConnector {
     private final static String URL = "jdbc:sqlite::resource:Chinook_Sqlite.sqlite";
@@ -12,40 +17,13 @@ public class SingletonDBConnector {
             conn = DriverManager.getConnection(URL);
         }
         catch (SQLException sqlException){
-            //TODO: Create logger
             System.out.println(sqlException.getMessage());
         }
     }
 
     public static synchronized SingletonDBConnector getInstance() {
-        if (singletonDBConnector == null){
-            return new SingletonDBConnector();
-        }
-        return singletonDBConnector;
+        return Objects.requireNonNullElseGet(singletonDBConnector, SingletonDBConnector::new);
     }
-    /* MIGHT USE THIS LATER
-    public ResultSet preparedStatmentQuery(String input, Connection conn){
-        try {
-            PreparedStatement preparedStatement = conn.prepareStatement(input);
-            return preparedStatement.executeQuery();
-        }
-        catch (SQLException e){
-            System.out.println(e.getMessage() + " genericPreparedStatement method");
-        }
-        return null;
-    }
-
-    public boolean preparedStatementUpdate(String input, Connection conn){
-        try {
-            PreparedStatement preparedStatement = conn.prepareStatement(input);
-            return preparedStatement.executeUpdate() == 1;
-        }
-        catch (SQLException e){
-            System.out.println(e.getMessage() + " preparedStatementUpdate ");
-        }
-        return false;
-    }
-     */
 
     public Connection getConn() {
         return conn;

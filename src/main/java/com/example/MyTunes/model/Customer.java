@@ -1,14 +1,28 @@
 package com.example.MyTunes.model;
 
-public class Customer {
-    private int id;
-    private String firstName;
-    private String lastName;
-    private String country;
-    private String postalCode;
-    private String phoneNumber;
-    private String email;
+/**
+ * POJO for Customer
+ */
 
+
+public class Customer {
+    private final int id;
+    private final String firstName;
+    private final String lastName;
+    private final String country;
+    private final String postalCode;
+    private final String phoneNumber;
+    private final String email;
+
+    public Customer(int id, String firstName, String lastName, String country, String postalCode, String phoneNumber, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.postalCode = postalCode;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
 
     public int getId() {
         return id;
@@ -36,17 +50,6 @@ public class Customer {
 
     public String getEmail() {
         return email;
-    }
-
-    //Hente
-    public Customer(int id, String firstName, String lastName, String country, String postalCode, String phoneNumber, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.country = country;
-        this.postalCode = postalCode;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
     }
 
     @Override

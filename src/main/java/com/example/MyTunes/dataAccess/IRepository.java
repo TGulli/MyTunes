@@ -4,6 +4,11 @@ import com.example.MyTunes.model.*;
 
 import java.util.ArrayList;
 
+
+/**
+ * Interface for dependency inversion
+ */
+
 public interface IRepository {
     ArrayList<Customer> getAllCustomers();
     ArrayList<Track> getAllTracks();
@@ -12,6 +17,6 @@ public interface IRepository {
     boolean createCustomer(Customer customer);
     boolean updateCustomer(Customer customer, String id);
     ArrayList<Country> getCustomersFromEachCountry();
-    ArrayList<HighestEarningCostumer> getHighestEarningCustomers();
+    ArrayList<HighestEarningCostumer> getHighestSpendingCustomers();
     PopularGenres getMostPopularGenreFromSpecificCustomer(String id);
 }

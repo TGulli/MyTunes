@@ -1,7 +1,5 @@
 package com.example.MyTunes;
 
-import com.example.MyTunes.dataAccess.DatabaseRetreiver;
-import com.example.MyTunes.model.Customer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,8 +8,7 @@ public class MyTunesApplication {
 
 	/**
 	 * TODO:
-	 * Refactor and delete unused methods
-	 * Comment everything
+	 * Change path from /api/ in CustomerController
 	 * README
 	 * Docker on Heroku
 	 * Postman tests against the API
@@ -21,7 +18,5 @@ public class MyTunesApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MyTunesApplication.class, args);
 	}
-
-
 
 }

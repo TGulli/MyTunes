@@ -1,8 +1,13 @@
 package com.example.MyTunes.model;
 
+
+/**
+ * POJO for Country
+ */
+
 public class Country {
-    private int numberOfPeople;
-    private String nameOfCountry;
+    private final int numberOfPeople;
+    private final String nameOfCountry;
 
     public Country(String nameOfCountry, int numberOfPeople) {
         this.numberOfPeople = numberOfPeople;
@@ -13,15 +18,7 @@ public class Country {
         return numberOfPeople;
     }
 
-    public void setNumberOfPeople(int numberOfPeople) {
-        this.numberOfPeople = numberOfPeople;
-    }
-
     public String getNameOfCountry() {
         return nameOfCountry;
-    }
-
-    public void setNameOfCountry(String nameOfCountry) {
-        this.nameOfCountry = nameOfCountry;
     }
 }
