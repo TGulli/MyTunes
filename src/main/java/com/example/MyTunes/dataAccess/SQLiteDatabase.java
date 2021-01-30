@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class SQLiteDatabase implements IRepository{
 
     //Set singleton database to null
-    private SingletonDBConnector dataBaseConnection = SingletonDBConnector.getInstance();
+    private SingletonDBConnector dataBaseConnection = null;
     private Connection myConnection = null;
 
 
