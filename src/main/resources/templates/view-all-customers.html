@@ -59,8 +59,8 @@
                     <p class="card-text" th:text="${cust.getPostalCode()}"></p>
                     <p class="card-text" th:text="${cust.getPhoneNumber()}"></p>
                     <p class="card-text" th:text="${cust.getEmail()}"></p>
-                    <a class="btn btn-primary" th:href="'/api/customers/editCustomer/' + ${cust.getId()}">Edit customer</a>
-                    <a class="btn btn-primary" th:href="'/api/customers/getMostPopularGenreFromSpecificCustomer/' + ${cust.getId()}">Most popular genres</a>
+                    <a class="btn btn-primary" th:href="'/customers/editCustomer/' + ${cust.getId()}">Edit customer</a>
+                    <a class="btn btn-primary" th:href="'/customers/getMostPopularGenreFromSpecificCustomer/' + ${cust.getId()}">Most popular genres</a>
                 </div>
             </div>
         </div>
