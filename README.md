@@ -2,6 +2,10 @@
 
 MyTunes is a SPRING MVC application with Thymeleaf templating frontend. MyTunes uses SQLlite database with the Chinook database for doing a set of  queries against the database. 
 
+## Participants
+Thomas Gulli[](www.gitlab.com/thomas.gulli)
+Bjørnar Pedersen[](www.gitlab.com/bj0rnar)
+
 ## Motivation
 
 This project was made as an assignment during the Experis Academy Java Fullstack course.
