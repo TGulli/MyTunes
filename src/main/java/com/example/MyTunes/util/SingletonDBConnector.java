@@ -22,7 +22,10 @@ public class SingletonDBConnector {
     }
 
     public static synchronized SingletonDBConnector getInstance() {
-        return Objects.requireNonNullElseGet(singletonDBConnector, SingletonDBConnector::new);
+        if (singletonDBConnector == null){
+            return new SingletonDBConnector();
+        }
+        return singletonDBConnector;
     }
 
     public Connection getConn() {
