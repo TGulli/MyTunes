@@ -1,7 +1,6 @@
 package com.example.MyTunes.util;
 
 import java.sql.*;
-import java.util.Objects;
 
 /**
  * SingleTon class for handling Database connection
@@ -14,7 +13,6 @@ public class SingletonDBConnector {
 
     private SingletonDBConnector(){
         try {
-            System.out.println("SINGLETON DB CONSTRUCTOR!");
             conn = DriverManager.getConnection(URL);
         }
         catch (SQLException sqlException){
@@ -23,7 +21,6 @@ public class SingletonDBConnector {
     }
 
     public static synchronized SingletonDBConnector getInstance() {
-        System.out.println("SINGLE DB GETINSTANCE CALLED");
         if (singletonDBConnector == null){
             return new SingletonDBConnector();
         }
