@@ -48,10 +48,7 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        finally {
-            //Close current connection
-            dataBaseConnection.closeConnection();
-        }
+
 
 
         return null;
@@ -112,9 +109,7 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        finally {
-            dataBaseConnection.closeConnection();
-        }
+
 
 
         return null;
@@ -143,9 +138,7 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        finally {
-            dataBaseConnection.closeConnection();
-        }
+
 
 
         return null;
@@ -174,9 +167,7 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        finally {
-            dataBaseConnection.closeConnection();
-        }
+
         return false;
     }
 
@@ -203,9 +194,7 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        finally {
-            dataBaseConnection.closeConnection();
-        }
+
 
         return false;
     }
@@ -235,9 +224,7 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        finally{
-            dataBaseConnection.closeConnection();
-        }
+
 
         return null;
     }
@@ -267,9 +254,7 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        finally {
-            dataBaseConnection.closeConnection();
-        }
+
         return null;
     }
 
@@ -314,9 +299,7 @@ public class SQLiteDatabase implements IRepository{
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        finally {
-            dataBaseConnection.closeConnection();
-        }
+     
         return null;
     }
 }
