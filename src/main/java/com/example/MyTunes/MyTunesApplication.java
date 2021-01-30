@@ -8,7 +8,6 @@ public class MyTunesApplication {
 
 	/**
 	 * TODO:
-	 * Change path from /api/ in CustomerController
 	 * README
 	 * Docker on Heroku
 	 * Postman tests against the API

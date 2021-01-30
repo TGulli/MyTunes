@@ -40,21 +40,21 @@ public class CustomerController {
     }
 
     //Task 1: Retreives all customers
-    @GetMapping("api/customers")
+    @GetMapping("customers")
     public String getAllCustomers(Model model){
         model.addAttribute("customers", db.getAllCustomers());
         return "view-all-customers";
     }
 
     //Task 2: Creates an empty object for filling out in HTML form
-    @GetMapping("api/customers/addCustomer")
+    @GetMapping("customers/addCustomer")
     public String getCustomer(Model model){
         model.addAttribute("customer", new Customer(0, "", "", "", "", "", ""));
         return "addCustomer";
     }
 
     //Task 2: Retrieves object from HTML form and add it to database
-    @PostMapping("api/customers/addCustomer")
+    @PostMapping("customers/addCustomer")
     public String addCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
         Boolean success = db.createCustomer(customer);
         model.addAttribute("success", success);
@@ -63,7 +63,7 @@ public class CustomerController {
 
 
     //Task 3: GetMapping method for importing customer object to fill out html form
-    @GetMapping(value = "api/customers/editCustomer/{id}")
+    @GetMapping(value = "customers/editCustomer/{id}")
     public String updateCustomer(@PathVariable("id") int id, Model model) {
         Customer myCustomer = extractCustomerById(db.getAllCustomers(), id);
         //Check for parameter injection, ID should be retrieved by get method
@@ -74,7 +74,7 @@ public class CustomerController {
     }
 
     //Task 3: Postmapping method for handling HTML form in editCustomer.html
-    @PostMapping("api/customers/updateCustomer/{id}")
+    @PostMapping("customers/updateCustomer/{id}")
     public String updateCustomer(@ModelAttribute Customer customer, BindingResult error, Model model){
         boolean updatedSuccessfully = db.updateCustomer(customer, String.valueOf(customer.getId()));
         model.addAttribute("success", updatedSuccessfully);
@@ -83,21 +83,21 @@ public class CustomerController {
     }
 
     //Task 4: Retrieve sorted list of countries with most customers
-    @GetMapping("api/customers/customer-each-country")
+    @GetMapping("customers/customer-each-country")
     public String getCustomersFromEachCountry(Model model){
         model.addAttribute("countries", db.getCustomersFromEachCountry());
         return "countryCustomers";
     }
 
     //Task 5: Get highest earning customers
-    @GetMapping("api/customers/getHighestEarningCustomers")
+    @GetMapping("customers/getHighestEarningCustomers")
     public String getHighestEarningCustomers(Model model){
         model.addAttribute("earningCustomers", db.getHighestSpendingCustomers());
         return "highestEarning";
     }
 
     //Task 6: Retreieve the most popular genres for given artist
-    @GetMapping(value = "api/customers/getMostPopularGenreFromSpecificCustomer/{id}")
+    @GetMapping(value = "customers/getMostPopularGenreFromSpecificCustomer/{id}")
     public String getMostPopularGenreFromSpecificCustomer(@PathVariable(name = "id") String id, Model model){
         //POJO object for arist name and genres (name and number of songs)
         PopularGenres popularGenres = db.getMostPopularGenreFromSpecificCustomer(id);
@@ -106,7 +106,7 @@ public class CustomerController {
     }
 
     //Search field in NavBar for all pages.
-    @GetMapping("api/customers/searchPage")
+    @GetMapping("customers/searchPage")
     public String searchForTrackById(@RequestParam(value = "searchString") String searchString, Model model){
         ArrayList<Track> tracks = db.searchByTrackId(searchString);
         model.addAttribute("searchedTracks", tracks);
