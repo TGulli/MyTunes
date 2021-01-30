@@ -4,8 +4,7 @@ MyTunes is a SPRING MVC application with Thymeleaf templating frontend. MyTunes 
 
 ## Participants
 
-[Thomas Gulli](www.gitlab.com/thomas.gulli) and [Bjørnar Pedersen](www.gitlab.com/bj0rnar)
-
+Thomas Gulli and Bjørnar Pedersen
 
 ## Motivation
 
