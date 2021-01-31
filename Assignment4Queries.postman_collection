@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "2f6972cc-1204-4675-a1e5-8f90dfe2b1f3",
+		"name": "Assignment4 Queries",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all customers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/customers/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						""
+					]
+				},
+				"description": "get all customers"
+			},
+			"response": []
+		},
+		{
+			"name": "Create new customer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : 1,\r\n    \"firstName\" : \"Nicholas\",\r\n    \"lastName\" : \"Lennox\",\r\n    \"country\" : \"Somewhere\",\r\n    \"postalCode\" : \"1337\",\r\n    \"phoneNumber\" : \"13371337\",\r\n    \"email\" : \"Testmail@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/customers/create-new-customer",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						"create-new-customer"
+					]
+				},
+				"description": "Passes a body"
+			},
+			"response": []
+		},
+		{
+			"name": "Update customer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : 1,\r\n    \"firstName\" : \"King\",\r\n    \"lastName\" : \"Update\",\r\n    \"country\" : \"There\",\r\n    \"postalCode\" : \"9999\",\r\n    \"phoneNumber\" : \"123123123\",\r\n    \"email\" : \"updated@getupdated.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/customers/update-existing-customer/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						"update-existing-customer",
+						"1"
+					]
+				},
+				"description": "Updates customer with ID 1"
+			},
+			"response": []
+		},
+		{
+			"name": "Get countries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/get-countries",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"get-countries"
+					]
+				},
+				"description": "Gets countries sorted by number of people"
+			},
+			"response": []
+		},
+		{
+			"name": "Get highest spenders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/customers/highest-spenders/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						"highest-spenders",
+						""
+					]
+				},
+				"description": "Retreives highest spending customers"
+			},
+			"response": []
+		},
+		{
+			"name": "Get most popular genres",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/customers/popular-genre/12",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						"popular-genre",
+						"12"
+					]
+				},
+				"description": "Gets the most popular genres for a given customer based on the ID"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
