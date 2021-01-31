@@ -6,6 +6,10 @@ MyTunes is a SPRING MVC application with Thymeleaf templating frontend. MyTunes 
 
 Thomas Gulli and Bjørnar Pedersen
 
+## Heroku page
+
+https://mytjunz.herokuapp.com/
+
 ## Motivation
 
 This project was made as an assignment during the Experis Academy Java Fullstack course.
